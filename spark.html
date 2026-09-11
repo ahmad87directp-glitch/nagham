@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>شرارة الإلهام — نَغَم | مولّد أفكار موسيقية عربية مع مترونوم ودرون</title>
+<meta name="description" content="مولّد أفكار موسيقية بالعربية: مقام، إيقاع عربي، تقدّم هارموني، صورة شعرية، وقيد إبداعي — مع مترونوم يعزف الإيقاع ودرون على المقام. مجاني بالكامل.">
+<link rel="manifest" href="manifest.json">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b0d12;--card:#141824;--border:#232a3b;--text:#e8ecf4;--muted:#9aa4b8;--accent:#7c5cff;--accent-2:#22d3ee;--green:#34d399;--yellow:#fbbf24;--red:#f87171}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Cairo",Tahoma,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.8}
+a{color:inherit;text-decoration:none}
+.container{max-width:1100px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:0;z-index:10;background:rgba(11,13,18,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+nav{display:flex;align-items:center;justify-content:space-between;height:68px}
+.logo{font-weight:900;font-size:1.5rem;display:flex;align-items:center;gap:8px}.logo span{color:var(--accent)}
+.back{color:var(--muted);font-size:.95rem}.back:hover{color:var(--text)}
+.tool-hero{text-align:center;padding:50px 0 24px}
+.tool-hero h1{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:900;margin-bottom:8px}
+.tool-hero p{color:var(--muted);max-width:640px;margin:0 auto 16px}
+.badges{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.badge{padding:3px 14px;border-radius:999px;font-size:.85rem;font-weight:700;background:rgba(52,211,153,.1);color:var(--green);border:1px solid rgba(52,211,153,.3)}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.chip{padding:7px 16px;border-radius:999px;border:1px solid var(--border);cursor:pointer;font-size:.9rem;font-weight:700;background:#0e111a;transition:.15s;user-select:none}
+.chip:hover{border-color:var(--muted)}.chip.on{border-color:var(--accent);background:rgba(124,92,255,.18);color:#fff}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 22px;border-radius:10px;background:var(--accent);color:#fff;font-weight:700;border:1px solid transparent;cursor:pointer;font-family:inherit;font-size:1rem;transition:.2s}
+.btn:hover:not(:disabled){filter:brightness(1.15)}.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.outline{background:transparent;border-color:var(--border)}.btn.green{background:var(--green);color:#0b0d12}.btn.big{font-size:1.15rem;padding:14px 34px}.btn.sm{padding:6px 12px;font-size:.85rem}
+.controls{display:flex;flex-direction:column;gap:14px;align-items:center;margin:20px 0 26px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.spark{position:relative;transition:.25s;animation:pop .35s ease}
+@keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.spark.locked{border-color:var(--yellow)}
+.spark .lock{position:absolute;top:12px;left:12px;background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:2px 8px;cursor:pointer;font-size:.9rem;font-family:inherit}
+.spark.locked .lock{border-color:var(--yellow);color:var(--yellow)}
+.spark .k{color:var(--muted);font-size:.8rem;font-weight:700}
+.spark h3{font-size:1.35rem;font-weight:900;margin:2px 0 6px;color:#fff}
+.spark p{color:var(--muted);font-size:.9rem}
+.spark .notes{direction:rtl;font-weight:700;color:var(--accent-2);font-size:.95rem;margin-top:6px}
+.spark .tag{display:inline-block;margin-top:8px;padding:1px 10px;border-radius:999px;font-size:.78rem;background:rgba(124,92,255,.15);color:var(--accent-2)}
+.wide{grid-column:1/-1}
+.audio{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+@media(max-width:760px){.audio{grid-template-columns:1fr}}
+.audio h4{font-weight:900;font-size:1.05rem;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
+.steps{display:flex;gap:4px;direction:ltr;margin:10px 0}
+.step{flex:1;height:34px;border-radius:6px;background:#0e111a;border:1px solid var(--border);display:grid;place-items:center;font-size:.75rem;font-weight:900;color:var(--muted)}
+.step.D{color:var(--accent)}.step.T{color:var(--accent-2)}.step.k{color:var(--muted)}
+.step.now{background:rgba(124,92,255,.35);border-color:var(--accent)}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+input[type=range]{flex:1;accent-color:var(--accent);min-width:120px}
+.val{direction:ltr;font-weight:700;min-width:60px;text-align:center}
+.hint{color:var(--muted);font-size:.8rem;margin-top:6px}
+.timer{font-size:2.6rem;font-weight:900;direction:ltr;text-align:center;color:var(--accent-2);line-height:1.2}
+.timer.warn{color:var(--yellow)}.timer.done{color:var(--red)}
+.favs{margin-top:30px}
+.fav{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:12px;background:var(--card);border:1px solid var(--border);margin-bottom:10px}
+.fav pre{white-space:pre-wrap;font-family:inherit;font-size:.9rem;color:var(--muted);flex:1}
+.fav pre strong{color:var(--text)}
+.toast{position:fixed;bottom:24px;right:50%;transform:translateX(50%);background:var(--green);color:#0b0d12;padding:10px 20px;border-radius:999px;font-weight:700;opacity:0;transition:.3s;pointer-events:none}
+.toast.show{opacity:1}
+h2.sec{font-size:1.4rem;font-weight:900;margin-bottom:14px;text-align:center}
+.hidden{display:none!important}
+footer{border-top:1px solid var(--border);padding:30px 0;color:var(--muted);font-size:.9rem;text-align:center;margin-top:50px}
+</style>
+</head>
+<body>
+
+<header><div class="container"><nav>
+  <a href="index.html" class="logo">🎵 <span>نَغَم</span></a>
+  <a href="index.html#tools" class="back">← جميع الأدوات</a>
+</nav></div></header>
+
+<main class="container">
+
+<section class="tool-hero">
+  <h1>💡 شرارة الإلهام</h1>
+  <p>الصفحة البيضاء أصعب جزء في التأليف. اضغط زرّاً واحداً واحصل على مقام وإيقاع وهارموني وصورة شعرية وقيد إبداعي — ثم شغّل الإيقاع والدرون وابدأ التأليف فوراً.</p>
+  <div class="badges">
+    <span class="badge">🎼 مقامات وإيقاعات عربية أصيلة</span>
+    <span class="badge">🥁 مترونوم يعزف الإيقاع</span>
+    <span class="badge">🎁 مجاني بلا حدود</span>
+  </div>
+</section>
+
+<div class="controls">
+  <div class="chips" id="genres">
+    <span class="chip on" data-v="all">🎲 الكل</span>
+    <span class="chip" data-v="sharqi">🪕 شرقي أصيل</span>
+    <span class="chip" data-v="pop">🎤 بوب عربي</span>
+    <span class="chip" data-v="hiphop">🎧 هيب هوب / تراب</span>
+    <span class="chip" data-v="electro">🎹 إلكتروني / لوفاي</span>
+  </div>
+  <div class="actions">
+    <button class="btn big" id="gen">✨ أشعل شرارة جديدة</button>
+    <button class="btn outline" id="daily" title="نفس الشرارة لكل المستخدمين اليوم">📅 شرارة اليوم</button>
+    <button class="btn outline" id="copy">📋 نسخ</button>
+    <button class="btn outline" id="share">📤 مشاركة</button>
+    <button class="btn green" id="save">⭐ حفظ</button>
+  </div>
+  <p class="hint">اضغط 🔓 على أي بطاقة لتثبيتها عند إعادة السحب</p>
+</div>
+
+<div class="grid" id="cards"></div>
+
+<div class="audio">
+  <div class="card">
+    <h4><span>🥁 المترونوم — <span id="rname"></span></span><button class="btn sm" id="metroBtn">▶ تشغيل</button></h4>
+    <div class="steps" id="steps"></div>
+    <div class="row"><span>السرعة</span><input type="range" id="bpm" min="50" max="180" value="100"><span class="val" id="bpmv">100 BPM</span></div>
+    <div class="row"><span>الصوت</span><input type="range" id="mvol" min="0" max="100" value="80"></div>
+    <p class="hint" id="rdesc"></p>
+  </div>
+  <div class="card">
+    <h4><span>🎵 الدرون — أساس المقام <span id="dnote" style="color:var(--accent-2)"></span></span><button class="btn sm" id="droneBtn">▶ تشغيل</button></h4>
+    <div class="row"><span>الصوت</span><input type="range" id="dvol" min="0" max="100" value="45"></div>
+    <div class="row"><span>الدرجة</span><input type="range" id="dshift" min="-6" max="6" value="0"><span class="val" id="dshiftv">0</span></div>
+    <p class="hint">درون مستمرّ (أساس + خامسة) لتجرّب اللحن عليه. حرّك "الدرجة" لنقل المقام إلى طبقة صوتك.</p>
+    <hr style="border:0;border-top:1px solid var(--border);margin:14px 0">
+    <h4><span>⏱ تحدّي التأليف</span></h4>
+    <div class="timer" id="timer">--:--</div>
+    <div class="actions" style="margin-top:8px">
+      <button class="btn outline sm" data-m="10">١٠ د</button><button class="btn outline sm" data-m="25">٢٥ د</button><button class="btn outline sm" data-m="45">٤٥ د</button><button class="btn outline sm" id="tstop">⏹</button>
+    </div>
+    <p class="hint">القاعدة الوحيدة: لا تحذف شيئاً قبل انتهاء الوقت.</p>
+  </div>
+</div>
+
+<section class="favs" id="favsSec">
+  <h2 class="sec">⭐ شراراتك المحفوظة</h2>
+  <div id="favs"></div>
+</section>
+
+</main>
+<div class="toast" id="toast"></div>
+<footer>© ٢٠٢٦ نَغَم — مشروع مجاني غير ربحي مفتوح المصدر. صُنع بحب للمبدعين العرب 🎶</footer>
+
+<script>
+const A = ['all'];
+const MAQAMS = [
+  { name:'راست',    tonic:'دو',      freq:261.63, notes:'دو · ري · مي♭½ · فا · صول · لا · سي♭½ · دو', mood:'الجلال والأصالة والفرح الهادئ — مقام الافتتاح والوقار', g:['sharqi','pop'] },
+  { name:'بيات',    tonic:'ري',      freq:293.66, notes:'ري · مي♭½ · فا · صول · لا · سي♭ · دو · ري', mood:'الدفء والحنين والروح الشعبية — أكثر المقامات انتشاراً', g:['sharqi','pop'] },
+  { name:'حجاز',    tonic:'ري',      freq:293.66, notes:'ري · مي♭ · فا♯ · صول · لا · سي♭ · دو · ري', mood:'الشوق والروحانية وأفق الصحراء', g:['sharqi','pop','hiphop','electro'] },
+  { name:'نهاوند',  tonic:'دو',      freq:261.63, notes:'دو · ري · مي♭ · فا · صول · لا♭ · سي♭ · دو', mood:'الحزن العميق والرومانسية — يقابل السلّم الصغير الغربي', g:['sharqi','pop','hiphop','electro'] },
+  { name:'كرد',     tonic:'ري',      freq:293.66, notes:'ري · مي♭ · فا · صول · لا · سي♭ · دو · ري', mood:'الشجن الحديث — الأنسب للبوب والهارموني الغربي', g:['pop','hiphop','electro'] },
+  { name:'صبا',     tonic:'ري',      freq:293.66, notes:'ري · مي♭½ · فا · صول♭ · لا · سي♭ · دو · ري♭', mood:'الحزن الشفيف والألم النبيل — مقام الفجر', g:['sharqi'] },
+  { name:'عجم',     tonic:'سي♭',     freq:233.08, notes:'سي♭ · دو · ري · مي♭ · فا · صول · لا · سي♭', mood:'الفرح والفخر والانتصار — يقابل السلّم الكبير', g:['sharqi','pop','electro'] },
+  { name:'سيكاه',   tonic:'مي♭½',    freq:320.24, notes:'مي♭½ · فا · صول · لا · سي♭½ · دو · ري · مي♭½', mood:'الوقار والدعاء والحنين القديم — يبدأ من ربع نغمة', g:['sharqi'] },
+  { name:'نكريز',   tonic:'دو',      freq:261.63, notes:'دو · ري · مي♭ · فا♯ · صول · لا · سي♭ · دو', mood:'الغموض والسحر والتوتر — مثالي للتراب المظلم', g:['sharqi','hiphop','electro'] },
+  { name:'حجاز كار',tonic:'دو',      freq:261.63, notes:'دو · ري♭ · مي · فا · صول · لا♭ · سي · دو', mood:'الدرامية والفخامة والحسّ السينمائي', g:['sharqi','hiphop','electro'] },
+];
+
+const RHYTHMS = [
+  { name:'مقسوم',       sig:'4/4',  bpm:[95,125],  spb:2, pat:'D T - T D - T -',            desc:'الإيقاع الأشهر في الأغنية العربية والرقص الشرقي', g:['sharqi','pop'] },
+  { name:'بلدي',        sig:'4/4',  bpm:[90,115],  spb:2, pat:'D D - T D - T -',            desc:'ثقيل وأرضي، أساس الأغنية الشعبية المصرية', g:['sharqi','pop'] },
+  { name:'سعيدي',       sig:'4/4',  bpm:[100,130], spb:2, pat:'D T - - D D T -',            desc:'صعيدي قوي ومتدافع، رائع مع المزمار والطبل', g:['sharqi'] },
+  { name:'ملفوف',       sig:'2/4',  bpm:[110,150], spb:4, pat:'D - - T - T - -',            desc:'سريع ومتدحرج، يُستخدم للدخول وللمقاطع الراقصة', g:['sharqi','pop'] },
+  { name:'أيوب',        sig:'2/4',  bpm:[100,140], spb:4, pat:'D - k - D - T -',            desc:'إيقاع الزار والحالة الروحانية، تكراري ومنوّم', g:['sharqi','electro'] },
+  { name:'وحدة كبيرة',  sig:'4/4',  bpm:[60,85],   spb:2, pat:'D - - T - - T -',            desc:'بطيء وفسيح، إيقاع الطقاطيق والقصائد الملحّنة', g:['sharqi'] },
+  { name:'سماعي ثقيل',  sig:'10/8', bpm:[70,95],   spb:2, pat:'D - - T - D D T - -',        desc:'الإيقاع العشاري الكلاسيكي للسماعيات والموشحات', g:['sharqi'] },
+  { name:'خليجي',       sig:'4/4',  bpm:[95,120],  spb:2, pat:'D - T - D D T -',            desc:'زخم خليجي مميّز مع الطار والمرواس', g:['sharqi','pop'] },
+  { name:'شعبي مغربي',  sig:'6/8',  bpm:[110,150], spb:3, pat:'D - T D - T',                desc:'ثلاثي مغربي متأرجح، أساس الشعبي والكناوي', g:['sharqi','pop','electro'] },
+  { name:'تراب',        sig:'4/4',  bpm:[130,160], spb:4, pat:'D - - - T - D - - - D - T - - -', desc:'كِيك متقطّع وسنير على 2 و4، مع هاي-هات ثلاثي فوقه', g:['hiphop'] },
+  { name:'بوم-باب',     sig:'4/4',  bpm:[85,100],  spb:4, pat:'D - - - T - - - D - D - T - - -', desc:'هيب هوب كلاسيكي متمهّل، يليق بعينات العود والقانون', g:['hiphop'] },
+  { name:'لوفاي',       sig:'4/4',  bpm:[70,90],   spb:4, pat:'D - - - T - - D - - D - T - - -', desc:'كِيك متأخّر قليلاً وسنير ناعم، أجواء ليلية هادئة', g:['electro','hiphop'] },
+  { name:'هاوس',        sig:'4/4',  bpm:[120,128], spb:2, pat:'D - D T D - D T',            desc:'كِيك على كل ضربة مع كلاب على 2 و4 — أضف دربكة فوقه!', g:['electro','pop'] },
+];
+
+const CHORDS = [
+  { name:'الهبوط الأندلسي',   prog:'i – ♭VII – ♭VI – V',      ex:'ري صغير – دو – سي♭ – لا كبير', tip:'العمود الفقري للفلامنكو والأغنية العربية الحديثة', g:['pop','hiphop','electro'] },
+  { name:'الشجن العربي',      prog:'i – ♭VI – ♭III – ♭VII',   ex:'ري صغير – سي♭ – فا – دو',      tip:'يتنفّس مع مقام كرد كأنه صُنع له', g:['pop','electro'] },
+  { name:'البوب الذهبي',      prog:'I – V – vi – IV',          ex:'دو – صول – لا صغير – فا',        tip:'المحبوب عالمياً — جرّبه بعزف عود بدل الغيتار', g:['pop'] },
+  { name:'الحلقة العاطفية',   prog:'vi – IV – I – V',          ex:'لا صغير – فا – دو – صول',        tip:'يبدأ من الحزن وينتهي بالأمل', g:['pop','electro'] },
+  { name:'التراب المظلم',     prog:'i – i – ♭VI – V',          ex:'دو صغير – دو صغير – لا♭ – صول',  tip:'أبقِ الباس 808 على الدرجة الأولى طوال الوقت', g:['hiphop'] },
+  { name:'اللوفاي الدافئ',    prog:'ii7 – V7 – Imaj7 – vi7',   ex:'ري صغير7 – صول7 – دو كبير7 – لا صغير7', tip:'جاز ناعم، اعزفه على بيانو مضبّب (Chorus + Lo-pass)', g:['electro'] },
+  { name:'الترنّح الإلكتروني',prog:'i – ♭VII – i – ♭VII',      ex:'لا صغير – صول – لا صغير – صول',  tip:'وتران فقط، والحركة كلها من الصوت والفلتر', g:['electro','hiphop'] },
+  { name:'وتران وحسب',        prog:'i – v',                    ex:'ري صغير – لا صغير',              tip:'التقييد يولّد اللحن: كل شيء يعتمد على الميلودي', g:['pop','hiphop','electro'] },
+  { name:'بلا هارموني',       prog:'درون على الدرجة الأولى',    ex:'أساس + خامسة مستمرّين',          tip:'كما في التخت الشرقي: اللحن هو الملك، والهارموني ضيف', g:['sharqi'] },
+  { name:'الانتقال المقامي',  prog:'مقام → مقام ثانٍ → عودة',   ex:'بيات → صبا في القرار → بيات',   tip:'الهارموني الشرقي الحقيقي هو تلوين المقامات لا تبديل الأوتار', g:['sharqi'] },
+];
+
+const INSTR = [
+  { name:'العود',              tip:'اعزف الأساس ثم زخرفة سريعة نازلة',          g:['sharqi','pop','hiphop'] },
+  { name:'القانون',            tip:'تذكّر: القانون يحب الأرابيسك المتموّج',      g:['sharqi','pop'] },
+  { name:'الناي',              tip:'ابدأ بنفَس طويل وحيد قبل أي شيء',            g:['sharqi','electro'] },
+  { name:'الكمان الشرقي',      tip:'غليساندو حزين بين الدرجتين ٣ و٤',             g:['sharqi','pop'] },
+  { name:'البزق',              tip:'صوته المعدني يقطع أي ميكس مزدحم',             g:['sharqi','electro'] },
+  { name:'الدربكة الحيّة',     tip:'سجّلها بهاتفك قرب الحافّة لصوت تَك حادّ',    g:['sharqi','pop','hiphop','electro'] },
+  { name:'الرقّ والدفّ',       tip:'ضعهما على يمين ويسار الاستريو',              g:['sharqi'] },
+  { name:'بيانو خافت',         tip:'أوتار مفتوحة بلا الثالثة تُبقي المقام غامضاً', g:['pop','electro'] },
+  { name:'سينث باس 808',       tip:'اجعله يمتدّ (Glide) مع تغيّر الوتر',          g:['hiphop','electro'] },
+  { name:'عيّنة عود مبطّأة',   tip:'أبطئها للنصف وأضف Reverb طويلاً',            g:['hiphop','electro'] },
+  { name:'صوت بشري كآلة',      tip:'سجّل "آه" واحدة وحوّلها إلى Pad',             g:['pop','electro','hiphop'] },
+  { name:'غيتار نايلون',       tip:'عزف أندلسي بالإبهام على الباس',               g:['pop'] },
+  { name:'سينث Pad ضبابي',     tip:'فلتر يفتح ببطء طول المقطع',                  g:['electro','hiphop'] },
+  { name:'أكورديون',           tip:'تذكّر أغاني الملاهي المصرية الستينية',        g:['sharqi','pop'] },
+];
+
+const STRUCT = [
+  { name:'مقدّمة آلية → كوبليه → لازمة → كوبليه → لازمة → قفلة', tip:'الشكل الكلاسيكي للأغنية العربية' },
+  { name:'دولاب → تقاسيم → لحن → تقاسيم → لحن', tip:'شكل التخت الشرقي التقليدي' },
+  { name:'لازمة أولاً → كوبليه → لازمة → جسر → لازمة مزدوجة', tip:'ابدأ بالأقوى؛ المستمع لا ينتظر أكثر من ٧ ثوانٍ' },
+  { name:'بناء تدريجي ٦٤ بار → انهيار → ذروة → خفوت', tip:'شكل الإلكتروني: قصة بلا كلمات' },
+  { name:'هوك → فيرس → هوك → فيرس → هوك → آوترو', tip:'شكل الهيب هوب؛ الهوك لا يتغيّر أبداً' },
+  { name:'مقطع واحد يتكرّر ويتلوّن ٤ مرات', tip:'كل تكرار يضيف عنصراً ويزيل آخر' },
+  { name:'موّال حرّ → دخول الإيقاع → أغنية', tip:'ابدأ بلا إيقاع لتشدّ الأذن، ثم انطلق' },
+];
+
+const IMAGES = [
+  'رسالة صوتية لم تُرسَل', 'أضواء القاهرة من الطائرة ليلاً', 'رائحة القهوة في بيت الجدّة', 'شارع مبلول بعد أول مطر في الخريف',
+  'انتظار الحافلة الأخيرة', 'صوت الأذان يختلط بضجيج السوق', 'صورة قديمة بلا تاريخ', 'البحر في الشتاء بلا أحد',
+  'مكالمة مع صديق يعيش في قارة أخرى', 'أول يوم في مدينة غريبة', 'شمعة تقاوم مروحة السقف', 'حلم تتذكّر نصفه فقط',
+  'باب البيت القديم الذي لم يُفتح منذ سنوات', 'الضحك الذي يخبّئ دمعة', 'سفر بالقطار والرأس على الشبّاك', 'الوعد الذي قطعته لنفسك في العشرين',
+  'زفّة بعيدة تسمعها من الشرفة', 'دفتر تليفونات ورقي وأسماء غابت', 'ليلة العيد الأخيرة قبل الرحيل', 'شخص لا تعرفه يهمس لك: لا تخف',
+];
+
+const CONSTRAINTS = [
+  'استخدم ٣ آلات فقط — لا أكثر', 'اكتب اللحن كاملاً على آلة واحدة قبل فتح أي مؤثّر', 'لا تستخدم الدرجة الخامسة من المقام في اللازمة أبداً',
+  'يجب أن تحتوي المقطوعة على ٤ ثوانٍ من الصمت الكامل', 'ابدأ من نهاية الأغنية وامشِ عكسياً', 'الإيقاع من أصوات المطبخ فقط (سجّلها الآن بهاتفك)',
+  'كلمات اللازمة ٥ كلمات لا أكثر', 'لا Reverb على أي شيء — جفاف كامل', 'استخدم صوتاً من الشارع كطبقة خلفية طوال الأغنية',
+  'اللحن كله في نطاق خمس درجات فقط', 'غنِّ الجملة الأولى قبل أن تعزف أي نوتة', 'كل ٨ بارات يجب أن تتغيّر آلة واحدة',
+  'أطول نوتة في اللحن يجب أن تقع على كلمة "أنا"', 'المقطوعة كلها بصوت واحد مضاعف ١٢ مرة', 'لا تُنظّف أي خطأ في التسجيل — الأخطاء هي الطابع',
+  'اكتب اللحن وأنت تمشي، ثم سجّله فور عودتك', 'ابنِ الإيقاع من تصفيق يديك فقط', 'استعمل الدرون كباس طوال المقطوعة بلا تغيير',
+];
+
+const MOODS = ['حنين', 'أمل حذر', 'غضب صامت', 'فرح طفولي', 'وحشة ليلية', 'حبّ أول', 'وداع هادئ', 'انتصار متعَب', 'عبث ولعب', 'رهبة روحية', 'شغف صيفي', 'صبر طويل'];
+
+const $ = s => document.querySelector(s);
+let genre = 'all', rng = Math.random, current = {}, locks = {};
+const pick = (arr) => { const pool = arr.filter(x => !x.g || genre === 'all' || x.g.includes(genre)); const p = pool.length ? pool : arr; return p[Math.floor(rng() * p.length)]; };
+const rint = (a, b) => a + Math.floor(rng() * (b - a + 1));
+
+function generate(seedFn) {
+  rng = seedFn || Math.random;
+  const n = {
+    maqam: locks.maqam ? current.maqam : pick(MAQAMS),
+    rhythm: locks.rhythm ? current.rhythm : pick(RHYTHMS),
+    chords: locks.chords ? current.chords : pick(CHORDS),
+    instr: locks.instr ? current.instr : pick(INSTR),
+    struct: locks.struct ? current.struct : pick(STRUCT),
+    image: locks.image ? current.image : { mood: pick(MOODS), text: pick(IMAGES) },
+    constraint: locks.constraint ? current.constraint : pick(CONSTRAINTS),
+  };
+  if (!locks.rhythm) n.bpm = rint(n.rhythm.bpm[0], n.rhythm.bpm[1]); else n.bpm = current.bpm;
+  current = n; rng = Math.random;
+  render(); setRhythm(); setDrone();
+}
+
+function render() {
+  const c = current, L = k => `<button class="lock" onclick="toggleLock('${k}')">${locks[k] ? '🔒' : '🔓'}</button>`;
+  const card = (k, inner) => `<div class="card spark ${locks[k] ? 'locked' : ''}" id="c-${k}">${L(k)}${inner}</div>`;
+  $('#cards').innerHTML =
+    card('maqam', `<div class="k">المقام</div><h3>${c.maqam.name}</h3><p>${c.maqam.mood}</p><div class="notes">${c.maqam.notes}</div><span class="tag">الأساس: ${c.maqam.tonic}</span>`) +
+    card('rhythm', `<div class="k">الإيقاع</div><h3>${c.rhythm.name} <small style="font-size:.9rem;color:var(--muted)">${c.rhythm.sig}</small></h3><p>${c.rhythm.desc}</p><div class="notes" style="direction:ltr;text-align:right;letter-spacing:2px">${c.rhythm.pat}</div><span class="tag">${c.bpm} BPM</span>`) +
+    card('chords', `<div class="k">الهارموني</div><h3>${c.chords.name}</h3><div class="notes">${c.chords.prog}</div><p style="margin-top:4px">مثال: ${c.chords.ex}</p><p>💡 ${c.chords.tip}</p>`) +
+    card('instr', `<div class="k">الآلة البطلة</div><h3>${c.instr.name}</h3><p>💡 ${c.instr.tip}</p>`) +
+    card('image', `<div class="k">المزاج والصورة</div><h3>${c.image.mood}</h3><p style="font-size:1.05rem;color:var(--text)">«${c.image.text}»</p>`) +
+    card('struct', `<div class="k">البنية</div><h3 style="font-size:1.05rem">${c.struct.name}</h3><p>💡 ${c.struct.tip}</p>`) +
+    `<div class="card spark wide ${locks.constraint ? 'locked' : ''}" id="c-constraint" style="border-color:${locks.constraint ? 'var(--yellow)' : 'rgba(34,211,238,.4)'}">${L('constraint')}<div class="k">⚡ القيد الإبداعي</div><h3>${c.constraint}</h3><p>القيود تحرّر: عندما تُغلق باباً، يفتح الإبداع نافذة لم ترها.</p></div>`;
+}
+
+function toggleLock(k) { locks[k] = !locks[k]; render(); }
+
+function sparkText() {
+  const c = current;
+  return `✨ شرارة إلهام من نَغَم\n\n🎼 المقام: ${c.maqam.name} (${c.maqam.notes})\n🥁 الإيقاع: ${c.rhythm.name} ${c.rhythm.sig} — ${c.bpm} BPM\n🎹 الهارموني: ${c.chords.name} — ${c.chords.prog}\n🪕 الآلة: ${c.instr.name}\n🌙 المزاج: ${c.image.mood} — «${c.image.text}»\n🏗 البنية: ${c.struct.name}\n⚡ القيد: ${c.constraint}\n\n${location.href.split('#')[0]}`;
+}
+
+function seeded(seed) { return () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+
+function toast(m) { const t = $('#toast'); t.textContent = m; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 1800); }
+
+$('#genres').onclick = e => { const ch = e.target.closest('.chip'); if (!ch) return; document.querySelectorAll('#genres .chip').forEach(x => x.classList.remove('on')); ch.classList.add('on'); genre = ch.dataset.v; generate(); };
+$('#gen').onclick = () => generate();
+$('#daily').onclick = () => { const d = new Date(); const s = d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate(); const saved = { ...locks }; locks = {}; generate(seeded(s)); locks = saved; render(); toast('📅 هذه شرارة اليوم لكل مستخدمي نَغَم'); };
+$('#copy').onclick = () => navigator.clipboard.writeText(sparkText()).then(() => toast('📋 تم نسخ الشرارة'));
+$('#share').onclick = () => { if (navigator.share) navigator.share({ title: 'شرارة إلهام من نَغَم', text: sparkText() }); else $('#copy').click(); };
+
+let actx = null; const ctx = () => actx || (actx = new (window.AudioContext || window.webkitAudioContext)());
+const metro = { on: false, step: 0, next: 0, timer: 0, pat: [], spb: 2, gain: null };
+
+function setRhythm() {
+  const r = current.rhythm; metro.pat = r.pat.split(' '); metro.spb = r.spb;
+  $('#bpm').value = current.bpm; $('#bpmv').textContent = current.bpm + ' BPM'; $('#rname').textContent = `${r.name} ${r.sig}`; $('#rdesc').textContent = r.desc;
+  $('#steps').innerHTML = metro.pat.map((s, i) => `<div class="step ${s === '-' ? '' : s}" data-i="${i}">${{ D: 'دُم', T: 'تَك', k: 'تك' }[s] || ''}</div>`).join('');
+  metro.step = 0;
+}
+
+function hit(type, t) {
+  const c = ctx(), g = c.createGain(); g.connect(metro.gain);
+  if (type === 'D') {
+    const o = c.createOscillator(); o.type = 'sine'; o.frequency.setValueAtTime(160, t); o.frequency.exponentialRampToValueAtTime(55, t + .12);
+    g.gain.setValueAtTime(1, t); g.gain.exponentialRampToValueAtTime(.001, t + .25); o.connect(g); o.start(t); o.stop(t + .3);
+  } else {
+    const o = c.createOscillator(); o.type = 'square'; o.frequency.setValueAtTime(type === 'k' ? 1400 : 2100, t);
+    const hp = c.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 1200;
+    g.gain.setValueAtTime(type === 'k' ? .25 : .5, t); g.gain.exponentialRampToValueAtTime(.001, t + .06); o.connect(hp); hp.connect(g); o.start(t); o.stop(t + .08);
+  }
+}
+
+function schedule() {
+  const c = ctx(), dur = 60 / (+$('#bpm').value) / metro.spb;
+  while (metro.next < c.currentTime + .12) {
+    const s = metro.pat[metro.step], t = metro.next, i = metro.step;
+    if (s !== '-') hit(s, t);
+    setTimeout(() => { document.querySelectorAll('.step').forEach(el => el.classList.remove('now')); const el = document.querySelector(`.step[data-i="${i}"]`); el && el.classList.add('now'); }, Math.max(0, (t - c.currentTime) * 1000));
+    metro.step = (metro.step + 1) % metro.pat.length; metro.next += dur;
+  }
+  metro.timer = setTimeout(schedule, 25);
+}
+
+$('#metroBtn').onclick = () => {
+  const c = ctx(); c.resume();
+  if (!metro.gain) { metro.gain = c.createGain(); metro.gain.connect(c.destination); }
+  metro.gain.gain.value = $('#mvol').value / 100;
+  metro.on = !metro.on; $('#metroBtn').textContent = metro.on ? '⏹ إيقاف' : '▶ تشغيل';
+  if (metro.on) { metro.step = 0; metro.next = c.currentTime + .05; schedule(); } else { clearTimeout(metro.timer); document.querySelectorAll('.step').forEach(el => el.classList.remove('now')); }
+};
+
+$('#bpm').oninput = e => { $('#bpmv').textContent = e.target.value + ' BPM'; current.bpm = +e.target.value; };
+$('#mvol').oninput = e => metro.gain && (metro.gain.gain.value = e.target.value / 100);
+
+const drone = { on: false, nodes: [], gain: null };
+const NOTES = ['دو', 'دو♯', 'ري', 'مي♭', 'مي', 'فا', 'فا♯', 'صول', 'لا♭', 'لا', 'سي♭', 'سي'];
+
+function droneFreq() { return current.maqam.freq * Math.pow(2, (+$('#dshift').value) / 12); }
+
+function setDrone() {
+  const sh = +$('#dshift').value; $('#dshiftv').textContent = (sh > 0 ? '+' : '') + sh;
+  const base = current.maqam.tonic, i = NOTES.indexOf(base.replace('½', ''));
+  $('#dnote').textContent = i >= 0 && sh ? NOTES[(i + sh + 120) % 12] + (base.includes('½') ? '½' : '') : base;
+  if (drone.on) drone.nodes.forEach(n => n.osc.frequency.setTargetAtTime(droneFreq() * n.mul, ctx().currentTime, .05));
+}
+
+$('#droneBtn').onclick = () => {
+  const c = ctx(); c.resume();
+  drone.on = !drone.on; $('#droneBtn').textContent = drone.on ? '⏹ إيقاف' : '▶ تشغيل';
+  if (drone.on) {
+    drone.gain = c.createGain(); drone.gain.gain.setValueAtTime(0, c.currentTime); drone.gain.gain.linearRampToValueAtTime($('#dvol').value / 100, c.currentTime + 1.2);
+    const lp = c.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 900; lp.connect(drone.gain); drone.gain.connect(c.destination);
+    const f = droneFreq();
+    drone.nodes = [{ mul: .5, type: 'sine', g: .9 }, { mul: 1, type: 'triangle', g: .35 }, { mul: 1.002, type: 'sawtooth', g: .08 }, { mul: 1.5, type: 'sine', g: .3 }].map(n => {
+      const osc = c.createOscillator(), g = c.createGain(); osc.type = n.type; osc.frequency.value = f * n.mul; g.gain.value = n.g; osc.connect(g); g.connect(lp); osc.start(); return { osc, mul: n.mul };
+    });
+  } else { const g = drone.gain, ns = drone.nodes; g.gain.linearRampToValueAtTime(0, c.currentTime + .6); setTimeout(() => ns.forEach(n => n.osc.stop()), 700); drone.nodes = []; }
+};
+
+$('#dvol').oninput = e => drone.gain && drone.gain.gain.setTargetAtTime(e.target.value / 100, ctx().currentTime, .05);
+$('#dshift').oninput = setDrone;
+
+let tEnd = 0, tInt = 0;
+document.querySelectorAll('[data-m]').forEach(b => b.onclick = () => { tEnd = Date.now() + (+b.dataset.m) * 60000; clearInterval(tInt); tInt = setInterval(tickTimer, 250); tickTimer(); });
+$('#tstop').onclick = () => { clearInterval(tInt); $('#timer').textContent = '--:--'; $('#timer').className = 'timer'; };
+
+function tickTimer() {
+  const left = Math.max(0, tEnd - Date.now()), m = Math.floor(left / 60000), s = Math.floor(left % 60000 / 1000);
+  const el = $('#timer'); el.textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`; el.className = 'timer' + (left === 0 ? ' done' : left < 120000 ? ' warn' : '');
+  if (left === 0) { clearInterval(tInt); toast('⏱ انتهى الوقت — احفظ ما لديك، لا تحكم عليه'); try { const c = ctx(); [0, .2, .4].forEach(d => hit('T', c.currentTime + d)); } catch {} }
+}
+
+const favs = JSON.parse(localStorage.getItem('nagham-sparks') || '[]');
+
+function renderFavs() {
+  $('#favsSec').classList.toggle('hidden', !favs.length);
+  $('#favs').innerHTML = favs.map((f, i) => `<div class="fav"><pre><strong>${f.title}</strong>\n${f.body}</pre><button class="btn outline sm" onclick="delFav(${i})">🗑</button></div>`).join('');
+}
+
+function delFav(i) { favs.splice(i, 1); localStorage.setItem('nagham-sparks', JSON.stringify(favs)); renderFavs(); }
+
+$('#save').onclick = () => {
+  const c = current; favs.unshift({ title: `${c.maqam.name} · ${c.rhythm.name} ${c.bpm} BPM · ${c.instr.name} — ${new Date().toLocaleDateString('ar')}`, body: `${c.chords.prog} | ${c.image.mood}: «${c.image.text}» | ⚡ ${c.constraint}` });
+  if (favs.length > 30) favs.pop(); localStorage.setItem('nagham-sparks', JSON.stringify(favs)); renderFavs(); toast('⭐ حُفظت الشرارة في جهازك');
+};
+
+generate(); renderFavs();
+document.addEventListener('keydown', e => { if (e.code === 'Space' && e.target === document.body) { e.preventDefault(); generate(); } });
+</script>
+</body>
+</html>

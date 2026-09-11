@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>فاحص الماستر — نَغَم | قياس LUFS والذروة الحقيقية مجاناً في المتصفح</title>
+<meta name="description" content="افحص جاهزية أغنيتك للنشر: قياس LUFS المتكامل، الذروة الحقيقية، المدى الديناميكي، والاستريو — مجاناً وبلا رفع ملفات، مباشرة في متصفحك.">
+<link rel="manifest" href="manifest.json">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b0d12;--card:#141824;--border:#232a3b;--text:#e8ecf4;--muted:#9aa4b8;--accent:#7c5cff;--accent-2:#22d3ee;--green:#34d399;--yellow:#fbbf24;--red:#f87171}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Cairo",Tahoma,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.8}
+a{color:inherit;text-decoration:none}
+.container{max-width:1000px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:0;z-index:10;background:rgba(11,13,18,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+nav{display:flex;align-items:center;justify-content:space-between;height:68px}
+.logo{font-weight:900;font-size:1.5rem;display:flex;align-items:center;gap:8px}
+.logo span{color:var(--accent)}
+.back{color:var(--muted);font-size:.95rem}.back:hover{color:var(--text)}
+.btn{display:inline-block;padding:10px 22px;border-radius:10px;background:var(--accent);color:#fff;font-weight:700;border:1px solid transparent;cursor:pointer;font-family:inherit;font-size:1rem;transition:.2s}
+.btn:hover{filter:brightness(1.15)}
+.btn.outline{background:transparent;border-color:var(--border)}
+.tool-hero{text-align:center;padding:60px 0 30px}
+.tool-hero h1{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;margin-bottom:10px}
+.tool-hero p{color:var(--muted);max-width:640px;margin:0 auto 18px;font-size:1.05rem}
+.badges{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.badge{padding:3px 14px;border-radius:999px;font-size:.85rem;font-weight:700;background:rgba(52,211,153,.1);color:var(--green);border:1px solid rgba(52,211,153,.3)}
+.drop{margin:20px auto 40px;border:2px dashed var(--border);border-radius:20px;padding:50px 20px;text-align:center;cursor:pointer;transition:.2s;background:var(--card)}
+.drop:hover,.drop.over{border-color:var(--accent);background:rgba(124,92,255,.06)}
+.drop .icon{font-size:3rem}
+.drop h3{font-size:1.2rem;font-weight:700;margin:10px 0 4px}
+.drop p{color:var(--muted);font-size:.9rem}
+.progress{max-width:600px;margin:0 auto 40px;text-align:center}
+.bar{height:10px;background:var(--card);border:1px solid var(--border);border-radius:999px;overflow:hidden;margin-bottom:10px}
+.bar div{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));transition:width .3s}
+.progress p{color:var(--muted)}
+.error{max-width:600px;margin:0 auto 40px;padding:16px 20px;border-radius:12px;background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.4);color:var(--red);text-align:center}
+.hidden{display:none!important}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px}
+.results>*{margin-bottom:20px}
+.fileinfo{display:flex;flex-wrap:wrap;gap:8px 24px;color:var(--muted);font-size:.95rem;justify-content:center}
+.fileinfo strong{color:var(--text)}
+.verdict{text-align:center;padding:26px;border-radius:16px;font-weight:900;font-size:1.4rem;border:1px solid}
+.verdict.ok{background:rgba(52,211,153,.1);border-color:var(--green);color:var(--green)}
+.verdict.warn{background:rgba(251,191,36,.1);border-color:var(--yellow);color:var(--yellow)}
+.verdict.danger{background:rgba(248,113,113,.1);border-color:var(--red);color:var(--red)}
+.verdict small{display:block;font-size:.95rem;font-weight:400;color:var(--muted);margin-top:4px}
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px}
+.metric{text-align:center;padding:18px 12px}
+.metric .val{font-size:1.9rem;font-weight:900;direction:ltr;display:block;line-height:1.3}
+.metric .val small{font-size:.85rem;color:var(--muted);font-weight:600}
+.metric .lbl{color:var(--muted);font-size:.9rem}
+.metric.big{grid-column:span 2}
+.metric.big .val{font-size:2.8rem;color:var(--accent-2)}
+.metric.ok .val{color:var(--green)}.metric.warn .val{color:var(--yellow)}.metric.danger .val{color:var(--red)}
+.gauge{direction:ltr;position:relative;height:14px;border-radius:999px;background:linear-gradient(90deg,#3b82f6 0%,var(--green) 50%,var(--green) 65%,var(--yellow) 76%,var(--red) 100%);margin:38px 10px 30px}
+.gauge .ptr{position:absolute;top:-8px;width:4px;height:30px;background:#fff;border-radius:2px;transform:translateX(-50%);box-shadow:0 0 8px #000}
+.gauge .ptr span{position:absolute;top:-28px;left:50%;transform:translateX(-50%);font-size:.85rem;font-weight:700;white-space:nowrap}
+.gauge .mark{position:absolute;top:18px;transform:translateX(-50%);font-size:.72rem;color:var(--muted);white-space:nowrap}
+.gauge .mark::before{content:"";position:absolute;top:-5px;left:50%;width:1px;height:5px;background:var(--muted)}
+canvas{width:100%;display:block;border-radius:10px;background:#0e111a;direction:ltr}
+.chart-title{font-weight:700;margin-bottom:10px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.legend{font-size:.8rem;color:var(--muted);display:flex;gap:14px}
+.legend i{display:inline-block;width:14px;height:3px;vertical-align:middle;margin-inline-end:4px}
+table{width:100%;border-collapse:collapse}
+th,td{padding:10px 8px;text-align:right;border-bottom:1px solid var(--border)}
+th{color:var(--muted);font-weight:600;font-size:.9rem}
+td.num{direction:ltr;text-align:right;font-weight:700}
+.status{padding:2px 12px;border-radius:999px;font-size:.85rem;font-weight:700;white-space:nowrap}
+.status.ok{background:rgba(52,211,153,.12);color:var(--green)}
+.status.warn{background:rgba(251,191,36,.12);color:var(--yellow)}
+.status.danger{background:rgba(248,113,113,.12);color:var(--red)}
+.recs{list-style:none}
+.recs li{padding:12px 14px;border-radius:10px;margin-bottom:10px;border:1px solid var(--border);display:flex;gap:10px;align-items:flex-start}
+.recs li.ok{border-color:rgba(52,211,153,.3)}.recs li.warn{border-color:rgba(251,191,36,.3)}.recs li.danger{border-color:rgba(248,113,113,.3)}
+.recs li span{font-size:1.2rem;line-height:1.5}
+h2.sec{font-size:1.4rem;font-weight:900;margin-bottom:14px}
+.faq{max-width:800px;margin:50px auto 0}
+.faq details{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 20px;margin-bottom:10px}
+.faq summary{cursor:pointer;font-weight:700;list-style:none;display:flex;justify-content:space-between}
+.faq summary::after{content:"+";color:var(--accent-2);font-size:1.3rem}
+.faq details[open] summary::after{content:"−"}
+.faq p{color:var(--muted);margin-top:8px}
+.note{font-size:.85rem;color:var(--muted);margin-top:10px}
+.center{text-align:center}
+footer{border-top:1px solid var(--border);padding:30px 0;color:var(--muted);font-size:.9rem;text-align:center;margin-top:60px}
+@media(max-width:560px){.metric.big{grid-column:span 1}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav>
+      <a href="index.html" class="logo">🎵 <span>نَغَم</span></a>
+      <a href="index.html#tools" class="back">← جميع الأدوات</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+
+  <section class="tool-hero">
+    <h1>📈 فاحص الماستر</h1>
+    <p>هل أغنيتك جاهزة للنشر على سبوتيفاي وأنغامي ويوتيوب؟ اسحب ملفك وسنقيس لك مستوى الصوت (LUFS) والذروة الحقيقية والمدى الديناميكي والتوافق مع المونو — ونعطيك توصيات عملية بالعربية.</p>
+    <div class="badges">
+      <span class="badge">🔒 ملفك لا يغادر جهازك</span>
+      <span class="badge">🎁 مجاني بلا حدود</span>
+      <span class="badge">📏 معيار ITU-R BS.1770-4</span>
+    </div>
+  </section>
+
+  <div class="drop" id="drop">
+    <div class="icon">🎵</div>
+    <h3>اسحب ملفك الصوتي هنا أو اضغط للاختيار</h3>
+    <p>MP3 · WAV · FLAC · AAC · OGG · M4A — أيّ حجم، وأيّ مدة</p>
+    <input type="file" id="file" accept="audio/*,.flac,.m4a,.aac,.ogg,.wav,.mp3" hidden>
+  </div>
+
+  <div class="progress hidden" id="progress">
+    <div class="bar"><div id="barfill"></div></div>
+    <p id="ptext">جارٍ التحليل…</p>
+  </div>
+
+  <div class="error hidden" id="error"></div>
+
+  <div class="results hidden" id="results">
+    <div class="fileinfo" id="fileinfo"></div>
+    <div class="verdict" id="verdict"></div>
+
+    <div class="card">
+      <h2 class="sec">مستوى الصوت المتكامل مقارنةً بأهداف المنصات</h2>
+      <div class="gauge" id="gauge">
+        <div class="ptr" id="ptr"><span id="ptrlabel"></span></div>
+        <div class="mark" style="left:27%">−23<br>بثّ تلفزيوني</div>
+        <div class="mark" style="left:54%">−16<br>Apple</div>
+        <div class="mark" style="left:61.5%">−14<br>Spotify · YouTube</div>
+        <div class="mark" style="left:81%">−9<br>عالٍ جداً</div>
+      </div>
+    </div>
+
+    <div class="metrics" id="metrics"></div>
+
+    <div class="card">
+      <div class="chart-title"><span>شكل الموجة</span></div>
+      <canvas id="wave" height="180"></canvas>
+    </div>
+
+    <div class="card" id="loudcard">
+      <div class="chart-title">
+        <span>مستوى الصوت عبر الزمن (قصير المدى — 3 ثوانٍ)</span>
+        <div class="legend">
+          <span><i style="background:var(--accent-2)"></i>قصير المدى</span>
+          <span><i style="background:#fff"></i>المتكامل</span>
+          <span><i style="background:var(--green)"></i>هدف −14</span>
+        </div>
+      </div>
+      <canvas id="loud" height="220"></canvas>
+    </div>
+
+    <div class="card">
+      <h2 class="sec">كيف ستتعامل معه منصات البث؟</h2>
+      <table>
+        <thead><tr><th>المنصة</th><th>الهدف</th><th>الفرق</th><th>النتيجة المتوقعة</th></tr></thead>
+        <tbody id="platforms"></tbody>
+      </table>
+      <p class="note">* أهداف التطبيع الشائعة كما تعلنها المنصات أو تُقاس عملياً، وقد تتغيّر. المنصات تُخفّض المستوى المرتفع دائماً، أما رفع المنخفض فتفعله بعضها فقط وبشرط عدم تجاوز الذروة.</p>
+    </div>
+
+    <div class="card">
+      <h2 class="sec">التوصيات</h2>
+      <ul class="recs" id="recs"></ul>
+    </div>
+
+    <div class="center"><button class="btn outline" onclick="reset()">فحص ملف آخر</button></div>
+  </div>
+
+  <section class="faq">
+    <h2 class="sec center">ماذا تعني هذه الأرقام؟</h2>
+    <details><summary>LUFS — مستوى الصوت المتكامل (Integrated)</summary><p>وحدة تقيس "الصوت المسموع" لكامل الأغنية بطريقة تحاكي أذن الإنسان، لا مجرد قوة الإشارة. هي المقياس الذي تستخدمه سبوتيفاي وآبل ويوتيوب لتوحيد مستوى الأغاني. الهدف الشائع −14 LUFS؛ إن كانت أغنيتك أعلى ستُخفّضها المنصة، فلا فائدة من "الصراع على الصخب".</p></details>
+    <details><summary>True Peak — الذروة الحقيقية (dBTP)</summary><p>أعلى قمة قد تصلها الإشارة بعد تحويلها إلى صوت تناظري أو ضغطها إلى MP3/AAC، وهي غالباً أعلى من "الذروة العينية" التي يعرضها برنامجك. الحد الآمن هو −1 dBTP؛ تجاوزه قد يُنتج تشويهاً على المنصات حتى لو بدا الملف سليماً عندك.</p></details>
+    <details><summary>LRA — مدى الصوت (Loudness Range)</summary><p>الفرق بين أهدأ وأصخب مقاطع الأغنية بوحدة LU. القيم بين 4 و 12 شائعة في البوب، وقد تصل إلى 20+ في الكلاسيكية. مدى كبير جداً قد يزعج المستمع بتغيّر المستوى، وصغير جداً يعني صوتاً مسطّحاً.</p></details>
+    <details><summary>PLR — نسبة الذروة إلى الصوت</summary><p>الفرق بين الذروة الحقيقية والمستوى المتكامل. مؤشر سريع على الديناميكية: أقل من 6 dB يعني ضغطاً شديداً (صوت "مسحوق")، وبين 8 و 14 dB متوازن لأغلب الأنواع.</p></details>
+    <details><summary>ترابط القناتين والتوافق مع المونو</summary><p>قيمة بين −1 و +1 تصف مدى تشابه القناتين اليسرى واليمنى. قرب +1 يعني صوتاً شبه أحادي، وقرب 0 يعني استريو واسعاً، أما القيم السالبة فتعني مشكلة طور: ستختفي أجزاء من الصوت عند التشغيل على هاتف أو مكبر بلوتوث أحادي.</p></details>
+  </section>
+
+</main>
+
+<footer>© ٢٠٢٦ نَغَم — مشروع مجاني غير ربحي مفتوح المصدر. صُنع بحب للمبدعين العرب 🎶</footer>
+
+<script>
+const $ = s => document.querySelector(s);
+const drop = $('#drop'), fileInput = $('#file');
+drop.onclick = () => fileInput.click();
+drop.ondragover = e => { e.preventDefault(); drop.classList.add('over'); };
+drop.ondragleave = () => drop.classList.remove('over');
+drop.ondrop = e => { e.preventDefault(); drop.classList.remove('over'); if (e.dataTransfer.files[0]) analyze(e.dataTransfer.files[0]); };
+fileInput.onchange = () => fileInput.files[0] && analyze(fileInput.files[0]);
+
+const sleep = () => new Promise(r => setTimeout(r, 0));
+function setProgress(pct, text) { $('#barfill').style.width = pct + '%'; $('#ptext').textContent = text; }
+function reset() {
+  $('#results').classList.add('hidden'); $('#error').classList.add('hidden'); $('#drop').classList.remove('hidden');
+  fileInput.value = ''; window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+const dB = a => a > 0 ? 20 * Math.log10(a) : -Infinity;
+const fmt = (v, d = 1) => Number.isFinite(v) ? (v > 0 ? '+' : '') + v.toFixed(d) : '—';
+const fmtTime = s => { s = Math.round(s); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`; };
+const decode = (ctx, arr) => new Promise((res, rej) => { const p = ctx.decodeAudioData(arr, res, rej); if (p && p.then) p.then(res, rej); });
+
+function kWeightCoefs(fs) {
+  let G = 3.999843853973347, Q = 0.7071752369554196, fc = 1681.974450955533;
+  let K = Math.tan(Math.PI * fc / fs), Vh = Math.pow(10, G / 20), Vb = Math.pow(Vh, 0.4996667741545416);
+  let a0 = 1 + K / Q + K * K;
+  const shelf = { b0: (Vh + Vb * K / Q + K * K) / a0, b1: 2 * (K * K - Vh) / a0, b2: (Vh - Vb * K / Q + K * K) / a0, a1: 2 * (K * K - 1) / a0, a2: (1 - K / Q + K * K) / a0 };
+  Q = 0.5003270373238773; fc = 38.13547087602444;
+  K = Math.tan(Math.PI * fc / fs); a0 = 1 + K / Q + K * K;
+  const hpf = { b0: 1, b1: -2, b2: 1, a1: 2 * (K * K - 1) / a0, a2: (1 - K / Q + K * K) / a0 };
+  return [shelf, hpf];
+}
+
+function accumulateKEnergy(x, c1, c2, hop, hopE, g) {
+  let x1 = 0, x2 = 0, y1 = 0, y2 = 0, u1 = 0, u2 = 0, v1 = 0, v2 = 0;
+  for (let i = 0, n = x.length; i < n; i++) {
+    const x0 = x[i];
+    const y0 = c1.b0 * x0 + c1.b1 * x1 + c1.b2 * x2 - c1.a1 * y1 - c1.a2 * y2;
+    x2 = x1; x1 = x0; y2 = y1; y1 = y0;
+    const v0 = c2.b0 * y0 + c2.b1 * u1 + c2.b2 * u2 - c2.a1 * v1 - c2.a2 * v2;
+    u2 = u1; u1 = y0; v2 = v1; v1 = v0;
+    hopE[(i / hop) | 0] += g * v0 * v0;
+  }
+}
+
+function measureLoudness(chans, fs) {
+  const [c1, c2] = kWeightCoefs(fs);
+  const n = chans[0].length, hop = Math.round(fs / 10), nHops = Math.floor(n / hop);
+  const hopE = new Float64Array(nHops + 1);
+  const W = chans.length >= 5 ? [1, 1, 1, 0, 1.41, 1.41, 1, 1] : [1, 1, 1, 1, 1, 1, 1, 1];
+  chans.forEach((x, i) => { if (W[i]) accumulateKEnergy(x, c1, c2, hop, hopE, W[i]); });
+
+  const pre = new Float64Array(nHops + 1);
+  for (let k = 0; k < nHops; k++) pre[k + 1] = pre[k] + hopE[k];
+  const power = (k, len) => (pre[k + len] - pre[k]) / (len * hop);
+  const toLU = p => p > 0 ? -0.691 + 10 * Math.log10(p) : -Infinity;
+  const mean = a => a.reduce((s, v) => s + v, 0) / a.length;
+
+  const blocks = [], shorts = [], shortTimes = [];
+  for (let k = 0; k + 4 <= nHops; k++) blocks.push(power(k, 4));
+  for (let k = 0; k + 30 <= nHops; k++) { shorts.push(power(k, 30)); shortTimes.push((k + 15) * hop / fs); }
+  if (!blocks.length && nHops > 0) blocks.push(power(0, nHops));
+
+  const absGate = Math.pow(10, (-70 + 0.691) / 10);
+  let integrated = -Infinity;
+  const g1 = blocks.filter(p => p > absGate);
+  if (g1.length) { const g2 = g1.filter(p => p > mean(g1) * 0.1); if (g2.length) integrated = toLU(mean(g2)); }
+
+  let momMax = -Infinity; for (const p of blocks) if (p > momMax) momMax = p; momMax = toLU(momMax);
+  let shortMax = -Infinity; for (const p of shorts) if (p > shortMax) shortMax = p; shortMax = shorts.length ? toLU(shortMax) : momMax;
+
+  let lra = 0;
+  const s1 = shorts.filter(p => p > absGate);
+  if (s1.length) {
+    const s2 = s1.filter(p => p > mean(s1) * 0.01).map(toLU).sort((a, b) => a - b);
+    if (s2.length > 1) { const q = f => s2[Math.min(s2.length - 1, Math.round(f * (s2.length - 1)))]; lra = q(.95) - q(.10); }
+  }
+  return { integrated, momMax, shortMax, lra, shortTerm: shorts.map(toLU), shortTimes };
+}
+
+const TP_L = 4, TP_TAPS = 8;
+const TP_PH = (() => {
+  const N = TP_L * TP_TAPS, M = (N - 1) / 2, h = new Float64Array(N);
+  for (let n = 0; n < N; n++) { const x = (n - M) / TP_L; const s = x === 0 ? 1 : Math.sin(Math.PI * x) / (Math.PI * x); h[n] = s * (0.5 - 0.5 * Math.cos(2 * Math.PI * (n + 1) / (N + 1))); }
+  const ph = [];
+  for (let p = 0; p < TP_L; p++) { const a = []; let sum = 0; for (let j = 0; j < TP_TAPS; j++) { a.push(h[j * TP_L + p]); sum += h[j * TP_L + p]; } ph.push(a.map(v => v / sum)); }
+  return ph;
+})();
+
+function truePeak(x, samplePeak) {
+  let peak = samplePeak, hot = 0; const gate = samplePeak * 0.5;
+  for (let i = 0, n = x.length; i < n; i++) {
+    if (Math.abs(x[i]) > gate) hot = TP_TAPS;
+    if (hot > 0) {
+      hot--;
+      for (let p = 0; p < TP_L; p++) {
+        const ph = TP_PH[p]; let acc = 0;
+        for (let j = 0; j < TP_TAPS; j++) { const k = i - j; if (k >= 0) acc += ph[j] * x[k]; }
+        if (acc < 0) acc = -acc; if (acc > peak) peak = acc;
+      }
+    }
+  }
+  return peak;
+}
+
+function peakAndClip(x) {
+  let pk = 0, runs = 0, run = 0;
+  for (let i = 0, n = x.length; i < n; i++) {
+    const a = Math.abs(x[i]); if (a > pk) pk = a;
+    if (a >= 0.999) { run++; if (run === 3) runs++; } else run = 0;
+  }
+  return { pk, runs };
+}
+
+function stereoStats(L, R) {
+  let sll = 0, srr = 0, slr = 0, sm = 0, ss = 0;
+  for (let i = 0, n = L.length; i < n; i++) {
+    const l = L[i], r = R[i]; sll += l * l; srr += r * r; slr += l * r;
+    const m = (l + r) / 2, s = (l - r) / 2; sm += m * m; ss += s * s;
+  }
+  return { corr: sll && srr ? slr / Math.sqrt(sll * srr) : 1, width: (sm + ss) ? ss / (sm + ss) * 100 : 0, balance: sll && srr ? 10 * Math.log10(srr / sll) : 0 };
+}
+
+async function analyze(file) {
+  $('#error').classList.add('hidden'); $('#results').classList.add('hidden'); $('#drop').classList.add('hidden');
+  $('#progress').classList.remove('hidden');
+  try {
+    setProgress(5, 'قراءة الملف…'); await sleep();
+    const arr = await file.arrayBuffer();
+    setProgress(15, 'فكّ ترميز الصوت…'); await sleep();
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const buf = await decode(ctx, arr); ctx.close();
+    const fs = buf.sampleRate, nCh = buf.numberOfChannels, chans = [];
+    for (let i = 0; i < nCh; i++) chans.push(buf.getChannelData(i));
+
+    setProgress(30, 'حساب الذروة العينية والقصّ…'); await sleep();
+    let sp = 0, clipRuns = 0;
+    chans.forEach(x => { const r = peakAndClip(x); if (r.pk > sp) sp = r.pk; clipRuns += r.runs; });
+
+    setProgress(45, 'حساب الذروة الحقيقية (×4 oversampling)…'); await sleep();
+    let tp = 0; chans.forEach(x => { const v = truePeak(x, sp); if (v > tp) tp = v; });
+
+    setProgress(65, 'قياس مستوى الصوت LUFS وفق BS.1770…'); await sleep();
+    const loud = measureLoudness(chans, fs);
+
+    setProgress(85, 'تحليل الاستريو…'); await sleep();
+    const stereo = nCh >= 2 ? stereoStats(chans[0], chans[1]) : null;
+
+    setProgress(97, 'رسم النتائج…'); await sleep();
+    $('#progress').classList.add('hidden'); $('#results').classList.remove('hidden');
+    render({ file, buf, fs, nCh, chans, sp, clipRuns, tp, loud, stereo });
+    $('#results').scrollIntoView({ behavior: 'smooth' });
+  } catch (err) {
+    console.error(err);
+    $('#progress').classList.add('hidden'); $('#drop').classList.remove('hidden');
+    $('#error').textContent = 'لم نستطع قراءة هذا الملف. تأكّد أنه ملف صوتي سليم بصيغة يدعمها متصفحك (جرّب WAV أو MP3 إن استمرت المشكلة).';
+    $('#error').classList.remove('hidden');
+  }
+}
+
+function render(r) {
+  const { file, buf, fs, nCh, chans, sp, clipRuns, tp, loud, stereo } = r;
+  const I = loud.integrated, tpDb = dB(tp), spDb = dB(sp), plr = tpDb - I;
+
+  $('#fileinfo').innerHTML = `
+    <span>📄 <strong>${file.name}</strong></span>
+    <span>⏱ المدة <strong>${fmtTime(buf.duration)}</strong></span>
+    <span>🎚 معدّل العينات <strong>${(fs / 1000).toFixed(1)} kHz</strong></span>
+    <span>🔊 القنوات <strong>${nCh === 1 ? 'مونو' : nCh === 2 ? 'استريو' : nCh + ' قنوات'}</strong></span>
+    <span>💾 الحجم <strong>${(file.size / 1048576).toFixed(1)} MB</strong></span>`;
+
+  const pct = Math.max(0, Math.min(100, (I + 30) / 26 * 100));
+  $('#ptr').style.left = pct + '%';
+  $('#ptrlabel').textContent = Number.isFinite(I) ? I.toFixed(1) + ' LUFS' : '—';
+
+  const recs = [];
+  if (tpDb > 0) recs.push(['danger', 'الذروة الحقيقية تتجاوز 0 dBTP: قصّ (Clipping) شبه مؤكّد. اخفض مستوى الخرج أو استخدم Limiter بسقف −1 dBTP.']);
+  else if (tpDb > -1) recs.push(['warn', 'الذروة الحقيقية أعلى من −1 dBTP: قد يظهر تشويه بعد تحويل المنصات ملفك إلى MP3/AAC. يُنصح بضبط سقف الـ Limiter على −1 dBTP.']);
+  else recs.push(['ok', 'الذروة الحقيقية ضمن الحد الآمن (≤ −1 dBTP).']);
+  if (clipRuns > 0) recs.push(['danger', `رُصدت ${clipRuns} منطقة قصّ (ثلاث عينات متتالية أو أكثر عند الحد الأقصى). راجع مرحلة الليمتر أو إعدادات التصدير.`]);
+  if (I > -8) recs.push(['danger', 'مستوى الصوت عالٍ جداً: ستخفّضه كل المنصات بشدّة وستفقد الديناميكية بلا أي مكسب مسموع.']);
+  else if (I > -11) recs.push(['warn', 'مستوى الصوت أعلى من أهداف معظم المنصات: ستُخفّضه، ولا ضرر كبير، لكن تخفيف الضغط قد يمنحك صوتاً أكثر حيوية دون أن يبدو أهدأ للمستمع.']);
+  else if (I < -20) recs.push(['warn', 'مستوى الصوت منخفض نسبياً: بعض المنصات لن ترفعه بما يكفي، فقد تبدو أغنيتك أهدأ من غيرها في قوائم التشغيل. فكّر في رفع مستوى الماستر.']);
+  else recs.push(['ok', 'مستوى الصوت المتكامل في نطاق ممتاز لمنصات البث.']);
+  if (Number.isFinite(plr)) {
+    if (plr < 6) recs.push(['warn', 'نسبة الذروة إلى الصوت (PLR) منخفضة: المقطوعة مضغوطة بقوة. إن لم يكن هذا اختياراً فنياً مقصوداً، خفّف الضغط أو الليمتر.']);
+    else if (plr > 16) recs.push(['ok', 'المدى الديناميكي واسع؛ ممتاز للكلاسيكية والصوتيات. لموسيقى البوب والراب قد ترغب بضغط أخف قليلاً.']);
+    else recs.push(['ok', 'المدى الديناميكي (PLR) متوازن.']);
+  }
+  if (loud.lra > 20) recs.push(['warn', 'مدى الصوت (LRA) كبير: الفرق بين المقاطع الهادئة والصاخبة واسع جداً وقد يضطر المستمع لتعديل مستوى الصوت. تحقق من الأتمتة أو أضف ضغطاً خفيفاً.']);
+  if (stereo) {
+    if (stereo.corr < 0) recs.push(['danger', 'ترابط القناتين سالب: مشكلة طور بين اليسار واليمين، وسيختفي جزء من الصوت على سماعات المونو (الهاتف، مكبرات البلوتوث). تحقق من الطور ومؤثرات توسيع الاستريو.']);
+    else if (stereo.corr < 0.3) recs.push(['warn', 'ترابط القناتين ضعيف: صورة استريو واسعة جداً؛ استمع للأغنية بالمونو للتأكد من عدم اختفاء عناصر مهمة.']);
+    else recs.push(['ok', 'التوافق مع المونو جيد.']);
+    if (Math.abs(stereo.balance) > 1.5) recs.push(['warn', `الميزان يميل نحو ${stereo.balance > 0 ? 'اليمين' : 'اليسار'} بنحو ${Math.abs(stereo.balance).toFixed(1)} dB. تحقق من الـ Pan العام ما لم يكن مقصوداً.`]);
+  } else recs.push(['ok', 'الملف أحادي (مونو): لا ينطبق تحليل الاستريو.']);
+
+  const icons = { ok: '✅', warn: '⚠️', danger: '⛔' };
+  $('#recs').innerHTML = recs.map(([c, t]) => `<li class="${c}"><span>${icons[c]}</span><div>${t}</div></li>`).join('');
+
+  const nDanger = recs.filter(x => x[0] === 'danger').length, nWarn = recs.filter(x => x[0] === 'warn').length;
+  const v = $('#verdict'); v.className = 'verdict ' + (nDanger ? 'danger' : nWarn ? 'warn' : 'ok');
+  v.innerHTML = nDanger ? `⛔ يحتاج مراجعة قبل النشر<small>${nDanger} مشكلة جوهرية و ${nWarn} ملاحظة</small>`
+    : nWarn ? `⚠️ جيد، مع ملاحظات<small>${nWarn} ملاحظة يمكن تحسينها</small>`
+    : `✅ جاهز للنشر<small>كل المقاييس ضمن الحدود الموصى بها</small>`;
+
+  const m = [
+    { lbl: 'مستوى الصوت المتكامل (Integrated)', val: fmt(I), unit: 'LUFS', big: true, cls: I > -9 ? 'danger' : (I > -11 || I < -20) ? 'warn' : 'ok' },
+    { lbl: 'الذروة الحقيقية (True Peak)', val: fmt(tpDb), unit: 'dBTP', cls: tpDb > 0 ? 'danger' : tpDb > -1 ? 'warn' : 'ok' },
+    { lbl: 'الذروة العينية (Sample Peak)', val: fmt(spDb), unit: 'dBFS' },
+    { lbl: 'أقصى قصير المدى (Short-term)', val: fmt(loud.shortMax), unit: 'LUFS' },
+    { lbl: 'أقصى لحظي (Momentary)', val: fmt(loud.momMax), unit: 'LUFS' },
+    { lbl: 'مدى الصوت (LRA)', val: loud.lra.toFixed(1), unit: 'LU', cls: loud.lra > 20 ? 'warn' : '' },
+    { lbl: 'الذروة إلى الصوت (PLR)', val: fmt(plr), unit: 'dB', cls: plr < 6 ? 'warn' : '' },
+  ];
+  if (stereo) m.push(
+    { lbl: 'ترابط القناتين (Correlation)', val: stereo.corr.toFixed(2), unit: '', cls: stereo.corr < 0 ? 'danger' : stereo.corr < .3 ? 'warn' : 'ok' },
+    { lbl: 'اتساع الاستريو (Side/Mid)', val: Math.round(stereo.width), unit: '%' },
+    { lbl: 'التوازن يسار/يمين', val: fmt(stereo.balance), unit: 'dB', cls: Math.abs(stereo.balance) > 1.5 ? 'warn' : '' }
+  );
+  $('#metrics').innerHTML = m.map(x => `<div class="card metric ${x.big ? 'big' : ''} ${x.cls || ''}"><span class="val">${x.val} <small>${x.unit}</small></span><span class="lbl">${x.lbl}</span></div>`).join('');
+
+  const platforms = [
+    { n: 'Spotify', t: -14 }, { n: 'YouTube', t: -14 }, { n: 'أنغامي Anghami', t: -14 }, { n: 'Apple Music', t: -16 },
+    { n: 'Tidal', t: -14 }, { n: 'Amazon Music', t: -14 }, { n: 'Deezer', t: -15 }, { n: 'SoundCloud', t: null }
+  ];
+  $('#platforms').innerHTML = platforms.map(p => {
+    if (p.t === null) return `<tr><td>${p.n}</td><td class="num">—</td><td class="num">—</td><td><span class="status ok">لا تطبيع — يُنشر كما هو</span></td></tr>`;
+    const d = p.t - I;
+    let cls = 'ok', txt;
+    if (Math.abs(d) <= 1) txt = 'مطابق ✓ — سيبقى مستواه كما هو تقريباً';
+    else if (d < 0) { txt = `ستُخفّضه المنصة بنحو ${Math.abs(d).toFixed(1)} dB`; cls = d < -4 ? 'warn' : 'ok'; }
+    else { txt = `أخفق من الهدف بـ ${d.toFixed(1)} dB — قد تَرفعه بعض المنصات`; cls = d > 4 ? 'warn' : 'ok'; }
+    return `<tr><td>${p.n}</td><td class="num">${p.t} LUFS</td><td class="num">${fmt(d)} dB</td><td><span class="status ${cls}">${txt}</span></td></tr>`;
+  }).join('');
+
+  drawWave($('#wave'), chans);
+  if (loud.shortTerm.length > 1) { $('#loudcard').classList.remove('hidden'); drawLoud($('#loud'), loud.shortTimes, loud.shortTerm, I, buf.duration); }
+  else $('#loudcard').classList.add('hidden');
+}
+
+function drawWave(cv, chans) {
+  const W = cv.clientWidth || 800, H = 180, dpr = devicePixelRatio || 1;
+  cv.width = W * dpr; cv.height = H * dpr;
+  const c = cv.getContext('2d'); c.scale(dpr, dpr);
+  c.fillStyle = '#0e111a'; c.fillRect(0, 0, W, H);
+  c.strokeStyle = '#232a3b'; c.beginPath(); c.moveTo(0, H / 2); c.lineTo(W, H / 2); c.stroke();
+  const n = chans[0].length, spp = n / W;
+  c.fillStyle = 'rgba(124,92,255,.85)';
+  for (let x = 0; x < W; x++) {
+    let mn = 1, mx = -1; const s = Math.floor(x * spp), e = Math.max(s + 1, Math.floor((x + 1) * spp)), step = Math.max(1, Math.floor((e - s) / 300));
+    for (let i = s; i < e; i += step) for (const ch of chans) { const v = ch[i]; if (v < mn) mn = v; if (v > mx) mx = v; }
+    const y1 = (1 - mx) * H / 2, y2 = (1 - mn) * H / 2;
+    c.fillRect(x, y1, 1, Math.max(1, y2 - y1));
+  }
+}
+
+function drawLoud(cv, times, vals, I, dur) {
+  const W = cv.clientWidth || 800, H = 220, dpr = devicePixelRatio || 1, padL = 44, padB = 22, padT = 8;
+  cv.width = W * dpr; cv.height = H * dpr;
+  const c = cv.getContext('2d'); c.scale(dpr, dpr); c.direction = 'ltr'; c.font = '11px Cairo, sans-serif';
+  c.fillStyle = '#0e111a'; c.fillRect(0, 0, W, H);
+  const yOf = v => padT + (Math.min(0, Math.max(-40, v)) * -1) / 40 * (H - padT - padB);
+  const xOf = t => padL + t / dur * (W - padL - 10);
+  c.strokeStyle = '#232a3b'; c.fillStyle = '#9aa4b8'; c.textAlign = 'right';
+  for (const g of [0, -10, -20, -30, -40]) { const y = yOf(g); c.beginPath(); c.moveTo(padL, y); c.lineTo(W - 10, y); c.stroke(); c.fillText(g, padL - 6, y + 4); }
+  c.textAlign = 'center';
+  for (let t = 0; t <= dur; t += dur > 600 ? 120 : dur > 180 ? 60 : 30) c.fillText(fmtTime(t), xOf(t), H - 6);
+  c.beginPath(); c.moveTo(xOf(times[0]), yOf(-40));
+  times.forEach((t, i) => c.lineTo(xOf(t), yOf(vals[i])));
+  c.lineTo(xOf(times[times.length - 1]), yOf(-40)); c.closePath();
+  c.fillStyle = 'rgba(34,211,238,.12)'; c.fill();
+  c.beginPath(); times.forEach((t, i) => i ? c.lineTo(xOf(t), yOf(vals[i])) : c.moveTo(xOf(t), yOf(vals[i])));
+  c.strokeStyle = '#22d3ee'; c.lineWidth = 1.6; c.stroke();
+  c.setLineDash([6, 4]); c.lineWidth = 1.2;
+  c.strokeStyle = '#34d399'; c.beginPath(); c.moveTo(padL, yOf(-14)); c.lineTo(W - 10, yOf(-14)); c.stroke();
+  if (Number.isFinite(I)) { c.strokeStyle = '#fff'; c.beginPath(); c.moveTo(padL, yOf(I)); c.lineTo(W - 10, yOf(I)); c.stroke(); }
+  c.setLineDash([]);
+}
+</script>
+</body>
+</html>
