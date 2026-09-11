@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>محوّل الصيغ — نَغَم | تحويل MP3 وWAV بالجملة مجاناً في المتصفح</title>
+<meta name="description" content="حوّل ملفاتك الصوتية بالجملة إلى MP3 أو WAV مع تطبيع المستوى وقصّ الصمت وتغيير معدّل العينات — مجاناً، بلا رفع ملفات، مباشرة في متصفحك.">
+<link rel="manifest" href="manifest.json">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b0d12;--card:#141824;--border:#232a3b;--text:#e8ecf4;--muted:#9aa4b8;--accent:#7c5cff;--accent-2:#22d3ee;--green:#34d399;--yellow:#fbbf24;--red:#f87171}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Cairo",Tahoma,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.8}
+a{color:inherit;text-decoration:none}
+.container{max-width:1100px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:0;z-index:10;background:rgba(11,13,18,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+nav{display:flex;align-items:center;justify-content:space-between;height:68px}
+.logo{font-weight:900;font-size:1.5rem;display:flex;align-items:center;gap:8px}.logo span{color:var(--accent)}
+.back{color:var(--muted);font-size:.95rem}.back:hover{color:var(--text)}
+.tool-hero{text-align:center;padding:50px 0 26px}
+.tool-hero h1{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:900;margin-bottom:8px}
+.tool-hero p{color:var(--muted);max-width:640px;margin:0 auto 16px}
+.badges{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.badge{padding:3px 14px;border-radius:999px;font-size:.85rem;font-weight:700;background:rgba(52,211,153,.1);color:var(--green);border:1px solid rgba(52,211,153,.3)}
+.workspace{display:grid;grid-template-columns:360px 1fr;gap:24px;align-items:start;margin-bottom:60px}
+@media(max-width:900px){.workspace{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px}
+.field{margin-bottom:16px}
+.field .lbl{display:block;font-weight:700;font-size:.9rem;margin-bottom:6px}
+.field .hint{color:var(--muted);font-size:.8rem;margin-top:4px}
+input[type=number],select{width:100%;padding:9px 12px;border-radius:10px;background:#0e111a;border:1px solid var(--border);color:var(--text);font-family:inherit;font-size:.95rem}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{padding:6px 12px;border-radius:999px;border:1px solid var(--border);cursor:pointer;font-size:.85rem;font-weight:600;background:#0e111a;transition:.15s;user-select:none}
+.chip:hover{border-color:var(--muted)}.chip.on{border-color:var(--accent);background:rgba(124,92,255,.18);color:#fff}
+.toggle{display:flex;align-items:center;justify-content:space-between;gap:10px;font-weight:600;font-size:.9rem;cursor:pointer;padding:8px 0;border-bottom:1px solid var(--border)}
+.toggle:last-child{border-bottom:0}.toggle input{accent-color:var(--accent);width:18px;height:18px}
+.toggle small{display:block;color:var(--muted);font-weight:400;font-size:.78rem}
+.drop{border:2px dashed var(--border);border-radius:16px;padding:44px 20px;text-align:center;cursor:pointer;transition:.2s;background:var(--card)}
+.drop:hover,.drop.over{border-color:var(--accent);background:rgba(124,92,255,.06)}
+.drop .ic{font-size:2.8rem}.drop h3{font-size:1.1rem;font-weight:700;margin:8px 0 2px}.drop p{color:var(--muted);font-size:.85rem}
+.list{display:flex;flex-direction:column;gap:10px;margin-top:16px}
+.item{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:12px 14px;border-radius:12px;background:var(--card);border:1px solid var(--border)}
+.item .ic{font-size:1.4rem}
+.item .name{font-weight:700;font-size:.92rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.item .meta{color:var(--muted);font-size:.78rem;direction:ltr;text-align:right}
+.item .bar{height:4px;background:#0e111a;border-radius:99px;overflow:hidden;margin-top:6px}
+.item .bar div{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));transition:width .2s}
+.item .act{display:flex;gap:6px}
+.item.done{border-color:rgba(52,211,153,.4)}.item.err{border-color:rgba(248,113,113,.4)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 18px;border-radius:10px;background:var(--accent);color:#fff;font-weight:700;border:1px solid transparent;cursor:pointer;font-family:inherit;font-size:.95rem;transition:.2s}
+.btn:hover:not(:disabled){filter:brightness(1.15)}.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.outline{background:transparent;border-color:var(--border)}.btn.green{background:var(--green);color:#0b0d12}
+.btn.sm{padding:6px 12px;font-size:.82rem}.btn.wide{width:100%}
+.bulk{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.bulk .btn{flex:1}
+.status{font-size:.8rem;font-weight:700;padding:2px 10px;border-radius:999px;white-space:nowrap}
+.status.wait{background:rgba(154,164,184,.12);color:var(--muted)}.status.run{background:rgba(124,92,255,.15);color:var(--accent-2)}
+.status.ok{background:rgba(52,211,153,.12);color:var(--green)}.status.err{background:rgba(248,113,113,.12);color:var(--red)}
+.summary{margin-top:14px;padding:14px;border-radius:12px;background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.3);text-align:center;font-weight:700}
+.hidden{display:none!important}
+.faq{max-width:800px;margin:0 auto 40px}
+.faq details{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 20px;margin-bottom:10px}
+.faq summary{cursor:pointer;font-weight:700;list-style:none;display:flex;justify-content:space-between}
+.faq summary::after{content:"+";color:var(--accent-2);font-size:1.3rem}.faq details[open] summary::after{content:"−"}
+.faq p{color:var(--muted);margin-top:8px}
+h2.sec{font-size:1.4rem;font-weight:900;margin-bottom:14px;text-align:center}
+footer{border-top:1px solid var(--border);padding:30px 0;color:var(--muted);font-size:.9rem;text-align:center}
+</style>
+</head>
+<body>
+
+<header><div class="container"><nav>
+  <a href="index.html" class="logo">🎵 <span>نَغَم</span></a>
+  <a href="index.html#tools" class="back">← جميع الأدوات</a>
+</nav></div></header>
+
+<main class="container">
+
+<section class="tool-hero">
+  <h1>🔄 محوّل الصيغ</h1>
+  <p>اسحب ملفاً أو عشرة، اختر الصيغة والإعدادات، وحمّلها كلّها بضغطة واحدة. التحويل يحدث داخل جهازك، فلا انتظار للرفع ولا حدود على الحجم.</p>
+  <div class="badges">
+    <span class="badge">🔒 لا يُرفع شيء إلى الإنترنت</span>
+    <span class="badge">📦 تحويل بالجملة + ZIP</span>
+    <span class="badge">🎚 تطبيع وقصّ الصمت</span>
+  </div>
+</section>
+
+<div class="workspace">
+
+  <!-- ===== الإعدادات ===== -->
+  <div class="card" id="panel">
+    <div class="field">
+      <span class="lbl">الصيغة الناتجة</span>
+      <div class="chips" data-key="fmt">
+        <span class="chip on" data-v="mp3">MP3</span>
+        <span class="chip" data-v="wav">WAV</span>
+      </div>
+    </div>
+
+    <div class="field" id="mp3opts">
+      <span class="lbl">جودة MP3</span>
+      <div class="chips" data-key="kbps">
+        <span class="chip" data-v="128">128 kbps</span>
+        <span class="chip" data-v="192">192 kbps</span>
+        <span class="chip on" data-v="320">320 kbps</span>
+      </div>
+      <div class="hint">320 للتوزيع النهائي · 192 توازن جيد · 128 للمسودّات والمراسلة</div>
+    </div>
+
+    <div class="field hidden" id="wavopts">
+      <span class="lbl">عمق البت (WAV)</span>
+      <div class="chips" data-key="bits">
+        <span class="chip on" data-v="16">16-bit</span>
+        <span class="chip" data-v="24">24-bit</span>
+        <span class="chip" data-v="32">32-bit Float</span>
+      </div>
+      <div class="hint">16 للنشر والأقراص · 24 للماسترينغ · 32 Float للعمل داخل الـ DAW</div>
+    </div>
+
+    <div class="field">
+      <span class="lbl">معدّل العينات</span>
+      <div class="chips" data-key="rate">
+        <span class="chip on" data-v="keep">كما هو</span>
+        <span class="chip" data-v="44100">44.1 kHz</span>
+        <span class="chip" data-v="48000">48 kHz</span>
+      </div>
+      <div class="hint">44.1 للموسيقى والمنصات · 48 للفيديو ويوتيوب</div>
+    </div>
+
+    <div class="field">
+      <span class="lbl">القنوات</span>
+      <div class="chips" data-key="ch">
+        <span class="chip on" data-v="keep">كما هي</span>
+        <span class="chip" data-v="2">استريو</span>
+        <span class="chip" data-v="1">مونو</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <span class="lbl">معالجة اختيارية</span>
+      <label class="toggle"><span>تطبيع الذروة إلى −1 dBFS<small>يرفع أو يخفض المستوى بحيث تصل أعلى ذروة إلى −1 dB</small></span><input type="checkbox" id="norm"></label>
+      <label class="toggle"><span>قصّ الصمت من البداية والنهاية<small>يحذف ما دون −60 dBFS مع ترك ٥٠ مللي ثانية أماناً</small></span><input type="checkbox" id="trim"></label>
+      <label class="toggle"><span>تلاشٍ خفيف (١٠ مللي ثانية)<small>يمنع "الطقّة" عند بداية ونهاية الملف</small></span><input type="checkbox" id="fade" checked></label>
+    </div>
+
+    <button class="btn green wide" id="convertBtn" disabled>⚡ تحويل الكل</button>
+    <p class="hint" id="libHint" style="text-align:center;margin-top:8px"></p>
+  </div>
+
+  <!-- ===== الملفات ===== -->
+  <div>
+    <div class="drop" id="drop">
+      <div class="ic">📂</div>
+      <h3>اسحب ملفاتك الصوتية هنا أو اضغط للاختيار</h3>
+      <p>MP3 · WAV · FLAC · AAC · OGG · M4A · OPUS — عدّة ملفات معاً</p>
+      <input type="file" id="fileInput" accept="audio/*,.flac,.m4a,.aac,.ogg,.opus,.wav,.mp3" multiple hidden>
+    </div>
+    <div class="list" id="list"></div>
+    <div class="bulk hidden" id="bulk">
+      <button class="btn outline" id="clearBtn">🗑 مسح القائمة</button>
+      <button class="btn" id="zipBtn" disabled>📦 تحميل الكل (ZIP)</button>
+    </div>
+    <div class="summary hidden" id="summary"></div>
+  </div>
+</div>
+
+<section class="faq">
+  <h2 class="sec">أسئلة سريعة</h2>
+  <details><summary>لماذا لا توجد FLAC أو AAC كصيغة ناتجة؟</summary><p>المتصفح يستطيع <strong>قراءة</strong> هذه الصيغ لكنه لا يوفّر مرمِّزاً لها، وإضافة مرمِّزات كاملة تعني تحميل عشرات الميغابايت في كل زيارة. اخترنا MP3 (الأكثر انتشاراً) وWAV (بلا فقدان) لتبقى الأداة خفيفة وسريعة. إن احتجت FLAC كثيراً، أخبرنا عبر "اقترح أداة".</p></details>
+  <details><summary>هل التحويل من MP3 إلى WAV يرفع الجودة؟</summary><p>لا. ما فُقد عند ضغط MP3 لا يعود. تحويل MP3 إلى WAV مفيد فقط للتوافق مع برامج أو أجهزة تطلب WAV، أما الجودة فتبقى كما كانت.</p></details>
+  <details><summary>كم يستغرق التحويل؟</summary><p>إلى WAV: لحظات. إلى MP3 بجودة 320: نحو ٥–١٥ ثانية لأغنية مدتها ٤ دقائق حسب جهازك، لأن الترميز يجري في متصفحك لا على خادم.</p></details>
+  <details><summary>هل يحتفظ الملف بالبيانات الوصفية (اسم الفنان، الغلاف)؟</summary><p>حالياً لا؛ يُحفظ الصوت فقط باسم الملف الأصلي. دعم ID3 على قائمة التطوير.</p></details>
+</section>
+
+</main>
+<footer>© ٢٠٢٦ نَغَم — مشروع مجاني غير ربحي مفتوح المصدر. صُنع بحب للمبدعين العرب 🎶</footer>
+
+<script>
+const $ = s => document.querySelector(s);
+const opts = { fmt:'mp3', kbps:320, bits:16, rate:'keep', ch:'keep', norm:false, trim:false, fade:true };
+const items = []; let busy = false;
+const sleep = () => new Promise(r => setTimeout(r, 0));
+const fmtT = s => { s = Math.round(s); return `${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`; };
+const fmtB = b => b >= 1048576 ? (b/1048576).toFixed(1)+' MB' : (b/1024).toFixed(0)+' KB';
+const decode = (ctx, arr) => new Promise((res, rej) => { const p = ctx.decodeAudioData(arr, res, rej); if (p && p.then) p.then(res, rej); });
+
+let lameReady = null;
+function loadLame() {
+  if (window.lamejs) return Promise.resolve();
+  if (lameReady) return lameReady;
+  $('#libHint').textContent = '⏳ تحميل مرمِّز MP3 (مرة واحدة فقط)…';
+  lameReady = new Promise((res, rej) => {
+    const s = document.createElement('script');
+    s.src = 'https://cdn.jsdelivr.net/npm/lamejs@1.2.1/lame.min.js';
+    s.onload = () => { $('#libHint').textContent = '✅ مرمِّز MP3 جاهز'; res(); };
+    s.onerror = () => { lameReady = null; $('#libHint').textContent = ''; rej(new Error('تعذّر تحميل مرمِّز MP3 — تحقق من الاتصال أو اختر WAV')); };
+    document.head.appendChild(s);
+  });
+  return lameReady;
+}
+
+async function processBuffer(buf, onProg) {
+  let rate = buf.sampleRate, nCh = buf.numberOfChannels;
+  let chans = []; for (let i = 0; i < nCh; i++) chans.push(buf.getChannelData(i));
+
+  const targetCh = opts.ch === 'keep' ? Math.min(nCh, 2) : +opts.ch;
+  if (targetCh === 1 && nCh > 1) {
+    const m = new Float32Array(chans[0].length);
+    for (const c of chans) for (let i = 0; i < m.length; i++) m[i] += c[i] / nCh;
+    chans = [m];
+  } else if (targetCh === 2 && nCh === 1) chans = [chans[0], chans[0]];
+  else if (nCh > 2) chans = [chans[0], chans[1]];
+  onProg(.15);
+
+  const targetRate = opts.rate === 'keep' ? rate : +opts.rate;
+  if (targetRate !== rate) {
+    const len = Math.ceil(chans[0].length * targetRate / rate);
+    const off = new OfflineAudioContext(chans.length, len, targetRate);
+    const src = off.createBufferSource(), b = off.createBuffer(chans.length, chans[0].length, rate);
+    chans.forEach((c, i) => b.copyToChannel(c, i)); src.buffer = b; src.connect(off.destination); src.start();
+    const out = await off.startRendering(); chans = chans.map((_, i) => out.getChannelData(i)); rate = targetRate;
+  }
+  onProg(.35);
+
+  if (opts.trim) {
+    const thr = Math.pow(10, -60/20), pad = Math.round(rate * .05), n = chans[0].length; let s = 0, e = n - 1;
+    outer1: for (; s < n; s++) for (const c of chans) if (Math.abs(c[s]) > thr) break outer1;
+    outer2: for (; e > s; e--) for (const c of chans) if (Math.abs(c[e]) > thr) break outer2;
+    s = Math.max(0, s - pad); e = Math.min(n, e + pad + 1);
+    if (e - s > rate * .1) chans = chans.map(c => c.slice(s, e));
+  }
+
+  let gain = 1;
+  if (opts.norm) { let pk = 0; for (const c of chans) for (let i = 0; i < c.length; i++) { const a = Math.abs(c[i]); if (a > pk) pk = a; } if (pk > 0) gain = Math.pow(10, -1/20) / pk; }
+  const f = opts.fade ? Math.round(rate * .01) : 0;
+  chans = chans.map(c => { const o = new Float32Array(c.length), n = c.length;
+    for (let i = 0; i < n; i++) { let g = gain; if (i < f) g *= i / f; else if (i >= n - f) g *= (n - 1 - i) / f; o[i] = Math.max(-1, Math.min(1, c[i] * g)); } return o; });
+  onProg(.45);
+  return { chans, rate };
+}
+
+function encodeWav(chans, rate, bits) {
+  const nCh = chans.length, n = chans[0].length, bps = bits / 8, dataLen = n * nCh * bps;
+  const buf = new ArrayBuffer(44 + dataLen), v = new DataView(buf);
+  const str = (o, s) => { for (let i = 0; i < s.length; i++) v.setUint8(o + i, s.charCodeAt(i)); };
+  str(0, 'RIFF'); v.setUint32(4, 36 + dataLen, true); str(8, 'WAVE'); str(12, 'fmt '); v.setUint32(16, 16, true);
+  v.setUint16(20, bits === 32 ? 3 : 1, true); v.setUint16(22, nCh, true); v.setUint32(24, rate, true);
+  v.setUint32(28, rate * nCh * bps, true); v.setUint16(32, nCh * bps, true); v.setUint16(34, bits, true);
+  str(36, 'data'); v.setUint32(40, dataLen, true);
+  let o = 44;
+  for (let i = 0; i < n; i++) for (let c = 0; c < nCh; c++) {
+    const s = chans[c][i];
+    if (bits === 16) { v.setInt16(o, s < 0 ? s * 32768 : s * 32767, true); o += 2; }
+    else if (bits === 24) { const x = Math.round(s < 0 ? s * 8388608 : s * 8388607); v.setUint8(o, x & 255); v.setUint8(o+1, (x >> 8) & 255); v.setUint8(o+2, (x >> 16) & 255); o += 3; }
+    else { v.setFloat32(o, s, true); o += 4; }
+  }
+  return new Blob([buf], { type: 'audio/wav' });
+}
+
+async function encodeMp3(chans, rate, kbps, onProg) {
+  await loadLame();
+  const nCh = chans.length, n = chans[0].length, enc = new lamejs.Mp3Encoder(nCh, rate, kbps);
+  const toI16 = f => { const o = new Int16Array(f.length); for (let i = 0; i < f.length; i++) o[i] = f[i] < 0 ? f[i] * 32768 : f[i] * 32767; return o; };
+  const L = toI16(chans[0]), R = nCh > 1 ? toI16(chans[1]) : null;
+  const parts = [], block = 1152 * 20;
+  for (let i = 0; i < n; i += block) {
+    const out = nCh > 1 ? enc.encodeBuffer(L.subarray(i, i + block), R.subarray(i, i + block)) : enc.encodeBuffer(L.subarray(i, i + block));
+    if (out.length) parts.push(out);
+    if ((i / block) % 4 === 0) { onProg(.45 + .55 * i / n); await sleep(); }
+  }
+  const end = enc.flush(); if (end.length) parts.push(end);
+  return new Blob(parts, { type: 'audio/mpeg' });
+}
+
+const CRC_T = (() => { const t = new Uint32Array(256); for (let i = 0; i < 256; i++) { let c = i; for (let k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; t[i] = c >>> 0; } return t; })();
+function crc32(u8) { let c = 0xFFFFFFFF; for (let i = 0; i < u8.length; i++) c = CRC_T[(c ^ u8[i]) & 255] ^ (c >>> 8); return (c ^ 0xFFFFFFFF) >>> 0; }
+
+async function makeZip(entries) {
+  const enc = new TextEncoder(), locals = [], centrals = []; let offset = 0;
+  const d = new Date(), dosTime = (d.getHours() << 11) | (d.getMinutes() << 5) | (d.getSeconds() >> 1), dosDate = ((d.getFullYear() - 1980) << 9) | ((d.getMonth() + 1) << 5) | d.getDate();
+  for (const { name, blob } of entries) {
+    const data = new Uint8Array(await blob.arrayBuffer()), nm = enc.encode(name), crc = crc32(data);
+    const lh = new DataView(new ArrayBuffer(30));
+    lh.setUint32(0, 0x04034b50, true); lh.setUint16(4, 20, true); lh.setUint16(6, 0x0800, true); lh.setUint16(8, 0, true);
+    lh.setUint16(10, dosTime, true); lh.setUint16(12, dosDate, true); lh.setUint32(14, crc, true); lh.setUint32(18, data.length, true); lh.setUint32(22, data.length, true); lh.setUint16(26, nm.length, true); lh.setUint16(28, 0, true);
+    const ch = new DataView(new ArrayBuffer(46));
+    ch.setUint32(0, 0x02014b50, true); ch.setUint16(4, 20, true); ch.setUint16(6, 20, true); ch.setUint16(8, 0x0800, true); ch.setUint16(10, 0, true);
+    ch.setUint16(12, dosTime, true); ch.setUint16(14, dosDate, true); ch.setUint32(16, crc, true); ch.setUint32(20, data.length, true); ch.setUint32(24, data.length, true);
+    ch.setUint16(28, nm.length, true); ch.setUint32(42, offset, true);
+    locals.push(lh.buffer, nm, data); centrals.push(ch.buffer, nm); offset += 30 + nm.length + data.length;
+  }
+  const cdSize = centrals.reduce((s, b) => s + b.byteLength, 0), eocd = new DataView(new ArrayBuffer(22));
+  eocd.setUint32(0, 0x06054b50, true); eocd.setUint16(8, entries.length, true); eocd.setUint16(10, entries.length, true); eocd.setUint32(12, cdSize, true); eocd.setUint32(16, offset, true);
+  return new Blob([...locals, ...centrals, eocd.buffer], { type: 'application/zip' });
+}
+
+const drop = $('#drop'), fileInput = $('#fileInput');
+drop.onclick = () => fileInput.click();
+drop.ondragover = e => { e.preventDefault(); drop.classList.add('over'); }; drop.ondragleave = () => drop.classList.remove('over');
+drop.ondrop = e => { e.preventDefault(); drop.classList.remove('over'); addFiles(e.dataTransfer.files); };
+fileInput.onchange = () => { addFiles(fileInput.files); fileInput.value = ''; };
+
+function addFiles(list) {
+  for (const f of list) { if (items.some(x => x.file.name === f.name && x.file.size === f.size)) continue; items.push({ id: Math.random().toString(36).slice(2), file: f, status: 'wait', prog: 0, blob: null, outName: '', info: '' }); }
+  renderList(); updateButtons();
+}
+
+function renderList() {
+  $('#list').innerHTML = items.map(it => `
+    <div class="item ${it.status === 'ok' ? 'done' : it.status === 'err' ? 'err' : ''}" data-id="${it.id}">
+      <div class="ic">${{wait:'🎵',run:'⚙️',ok:'✅',err:'❌'}[it.status]}</div>
+      <div style="min-width:0">
+        <div class="name" title="${it.file.name}">${it.file.name}</div>
+        <div class="meta">${fmtB(it.file.size)}${it.info ? ' · ' + it.info : ''}</div>
+        ${it.status === 'run' ? `<div class="bar"><div style="width:${it.prog*100}%"></div></div>` : ''}
+      </div>
+      <div class="act">
+        ${it.status === 'ok' ? `<a class="btn green sm" href="${it.url}" download="${it.outName}">⬇ تحميل</a>` : `<span class="status ${it.status}">${{wait:'بالانتظار',run:'جارٍ التحويل',err:'خطأ'}[it.status]}</span>`}
+        ${busy ? '' : `<button class="btn outline sm" onclick="removeItem('${it.id}')">✕</button>`}
+      </div>
+    </div>`).join('');
+  $('#bulk').classList.toggle('hidden', !items.length);
+}
+
+function updateItem(it) { const el = document.querySelector(`.item[data-id="${it.id}"]`); if (!el) return renderList(); const bar = el.querySelector('.bar div'); if (bar) bar.style.width = (it.prog*100) + '%'; }
+
+function removeItem(id) { const i = items.findIndex(x => x.id === id); if (i < 0) return; if (items[i].url) URL.revokeObjectURL(items[i].url); items.splice(i, 1); renderList(); updateButtons(); }
+
+function updateButtons() {
+  const pending = items.some(x => x.status === 'wait' || x.status === 'err'), done = items.filter(x => x.status === 'ok').length;
+  $('#convertBtn').disabled = busy || !pending; $('#zipBtn').disabled = busy || done < 1; $('#clearBtn').disabled = busy;
+  $('#convertBtn').textContent = busy ? '⏳ جارٍ التحويل…' : pending ? `⚡ تحويل ${items.filter(x => x.status !== 'ok').length} ملف` : '✅ تم تحويل الكل';
+  $('#summary').classList.toggle('hidden', !done || busy);
+  if (done) { const total = items.filter(x => x.status === 'ok').reduce((s, x) => s + x.blob.size, 0); $('#summary').textContent = `تم تحويل ${done} ملف · الحجم الإجمالي ${fmtB(total)}`; }
+}
+
+document.querySelectorAll('.chips[data-key]').forEach(g => g.onclick = e => {
+  const chip = e.target.closest('.chip'); if (!chip || busy) return;
+  g.querySelectorAll('.chip').forEach(x => x.classList.remove('on')); chip.classList.add('on');
+  const k = g.dataset.key; let v = chip.dataset.v; if (k === 'kbps' || k === 'bits') v = +v;
+  opts[k] = v; onSettingChange(k);
+});
+
+$('#durCustom').oninput = e => { const v = +e.target.value; if (v >= 5 && v <= 180) { opts.dur = v; document.querySelectorAll('.chips[data-key=dur] .chip').forEach(x => x.classList.remove('on')); onSettingChange('dur'); } };
+['norm', 'trim', 'fade'].forEach(k => $('#' + k).onchange = e => { opts[k] = e.target.checked; items.forEach(it => { if (it.status === 'ok') { URL.revokeObjectURL(it.url); it.status = 'wait'; it.blob = null; it.info = ''; } }); renderList(); updateButtons(); });
+
+function onSettingChange(key) {
+  if (key === 'fmt') { $('#mp3opts').classList.toggle('hidden', opts.fmt !== 'mp3'); $('#wavopts').classList.toggle('hidden', opts.fmt !== 'wav'); if (opts.fmt === 'mp3') loadLame().catch(() => {}); }
+  items.forEach(it => { if (it.status === 'ok') { URL.revokeObjectURL(it.url); it.status = 'wait'; it.blob = null; it.info = ''; } }); renderList(); updateButtons();
+}
+
+$('#convertBtn').onclick = async () => {
+  if (busy) return; busy = true; updateButtons(); renderList();
+  if (opts.fmt === 'mp3') { try { await loadLame(); } catch (e) { alert(e.message); busy = false; updateButtons(); renderList(); return; } }
+  for (const it of items) {
+    if (it.status === 'ok') continue;
+    it.status = 'run'; it.prog = 0; renderList();
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const buf = await decode(ctx, await it.file.arrayBuffer()); ctx.close(); it.prog = .1; updateItem(it);
+      const { chans, rate } = await processBuffer(buf, p => { it.prog = p; updateItem(it); });
+      const blob = opts.fmt === 'wav' ? encodeWav(chans, rate, opts.bits) : await encodeMp3(chans, rate, opts.kbps, p => { it.prog = p; updateItem(it); });
+      it.blob = blob; it.url = URL.createObjectURL(blob);
+      it.outName = it.file.name.replace(/\.[^.]+$/, '') + '.' + opts.fmt;
+      it.info = `→ ${opts.fmt.toUpperCase()} ${opts.fmt === 'mp3' ? opts.kbps + 'k' : opts.bits + 'bit'} · ${(rate/1000).toFixed(1)}kHz · ${chans.length === 1 ? 'Mono' : 'Stereo'} · ${fmtT(chans[0].length / rate)} · ${fmtB(blob.size)}`;
+      it.status = 'ok';
+    } catch (e) { console.error(e); it.status = 'err'; it.info = 'تعذّرت قراءة الملف أو صيغته غير مدعومة في متصفحك'; }
+    renderList(); await sleep();
+  }
+  busy = false; updateButtons(); renderList();
+};
+
+$('#zipBtn').onclick = async () => {
+  const done = items.filter(x => x.status === 'ok'); if (!done.length) return;
+  $('#zipBtn').disabled = true; $('#zipBtn').textContent = '⏳ تجهيز الحزمة…';
+  const zip = await makeZip(done.map(x => ({ name: x.outName, blob: x.blob })));
+  const a = document.createElement('a'); a.href = URL.createObjectURL(zip); a.download = `نغم - ${done.length} ملف ${opts.fmt.toUpperCase()}.zip`; a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 60000);
+  $('#zipBtn').textContent = '📦 تحميل الكل (ZIP)'; updateButtons();
+};
+
+$('#clearBtn').onclick = () => { if (busy) return; items.forEach(x => x.url && URL.revokeObjectURL(x.url)); items.length = 0; renderList(); updateButtons(); };
+
+if (!window.OfflineAudioContext) { document.querySelector('.chips[data-key=rate]').style.display = 'none'; }
+loadLame().catch(() => {});
+</script>
+</body>
+</html>
